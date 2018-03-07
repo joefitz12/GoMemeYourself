@@ -6,5 +6,7 @@ function createNewGame(){
   $.post("/games/new", gameData)
     .then(function(data) {
       console.log(data);
+      // data is game object from db
+      // jQuery render gameID and start round button to page
     });
 }
