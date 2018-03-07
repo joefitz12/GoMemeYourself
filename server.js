@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 var db = require("./models");
 
-require("./routes/apiRoutes")(app);
+// require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 app.use(express.static("public"));
