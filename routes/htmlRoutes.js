@@ -1,14 +1,16 @@
 //HTTP Routes//
+var path = require("path");
+
 module.exports = function(app){
     app.get("/", function(req, res){
-        res.sendFile(path.join(__dirname, "index.html"));
+        res.sendFile(path.join(__dirname, "../public/index.html"));
     });
 
     app.get("/phone-join", function(req, res){
-        res.sendFile(path.join(__dirname, "phone-join.html"));
+        res.sendFile(path.join(__dirname, "../public/phone-join.html"));
     });
     
     app.get("/phone-camera", function(req, res){
-        res.sendFile(path.join(__dirname, "phone-camera.html"));
+        res.sendFile(path.join(__dirname, "../public/phone-camera.html"));
     });
 };
