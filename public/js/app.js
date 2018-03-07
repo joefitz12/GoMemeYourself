@@ -10,3 +10,9 @@ function createNewGame(){
       // jQuery render gameID and start round button to page
     });
 }
+
+function renderNewGame(data) {
+  $("#start-game").hide();
+  $("#game-id__display").show();
+  
+}
