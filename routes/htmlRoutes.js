@@ -13,4 +13,8 @@ module.exports = function(app){
     app.get("/phone-camera", function(req, res){
         res.sendFile(path.join(__dirname, "../public/phone-camera.html"));
     });
+
+    app.get("/phone-caption", function(req, res){
+        res.sendFile(path.join(__dirname, "../public/phone-caption.html"));
+    });
 };
