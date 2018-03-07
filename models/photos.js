@@ -1,23 +1,27 @@
-var Sequelize = require("sequelize");
-var seqConnection = require("../config/connection.js");
+module.exports = function(sequelize, DataTypes) {
+  var Photo = sequelize.define("Photo", {
+    score: DataTypes.INTEGER,
+    caption: DataTypes.STRING,
+    location: DataTypes.STRING 
+  });
 
-var Table = seqConnection.define("table", {
-  customerName: {
-    type: Sequelize.STRING
-  },
-  customerEmail: {
-    type: Sequelize.STRING
-  },
-  phoneNumber: {
-    type: Sequelize.STRING
-  },
-  waitlisted: {
-    type: Sequelize.BOOLEAN
-  }
-}, {
-  timestamps: false
-});
+  Photo.associate = function(models) {
+    Photo.belongsTo(models.Player, {
+      foreignKey: {
+        name: "playerId",
+        allowNull: false
+      }
+    });
 
-Table.sync();
+    Photo.belongsTo(models.Player, {
+      foreignKey: {
+        name: "captionerId",
+        allowNull: false
+      }
+    });
+  };
+  return Photo;
+};
 
-module.exports = Table;
+db.teamMember.belongsTo(db.employee, {as: 'SupervisorId'});
+db.teamMember.belongsTo(db.employee, {as: 'RegularEmployeeId'});

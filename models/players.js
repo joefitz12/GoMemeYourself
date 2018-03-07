@@ -1,23 +1,16 @@
-var Sequelize = require("sequelize");
-var seqConnection = require("../config/connection.js");
+module.exports = function(sequelize, DataTypes) {
+  var Player = sequelize.define("Player", {
+    score: DataTypes.INTEGER
+  });
 
-var Table = seqConnection.define("table", {
-  customerName: {
-    type: Sequelize.STRING
-  },
-  customerEmail: {
-    type: Sequelize.STRING
-  },
-  phoneNumber: {
-    type: Sequelize.STRING
-  },
-  waitlisted: {
-    type: Sequelize.BOOLEAN
-  }
-}, {
-  timestamps: false
-});
-
-Table.sync();
-
-module.exports = Table;
+  Player.associate = function(models) {
+    Player.hasMany(models.Photo, {
+      as: "playerId"
+    });
+    Player.hasMany(models.Photo, {
+      as: "captionerId"
+    });
+    Player.belongsTo(models.Game);
+  };
+  return Player;
+};

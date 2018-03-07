@@ -1,23 +1,12 @@
-var Sequelize = require("sequelize");
-var seqConnection = require("../config/connection.js");
+module.exports = function(sequelize, DataTypes) {
+  var Game = sequelize.define("Game", {
+    round: DataTypes.INTEGER
+  });
 
-var Table = seqConnection.define("table", {
-  customerName: {
-    type: Sequelize.STRING
-  },
-  customerEmail: {
-    type: Sequelize.STRING
-  },
-  phoneNumber: {
-    type: Sequelize.STRING
-  },
-  waitlisted: {
-    type: Sequelize.BOOLEAN
-  }
-}, {
-  timestamps: false
-});
-
-Table.sync();
-
-module.exports = Table;
+  Game.associate = function(models) {
+    Game.hasMany(models.Player, {
+      onDelete: "cascade"
+    });
+  };
+  return Game;
+};
