@@ -9,6 +9,32 @@ module.exports = function (app) {
   //   res.json(waitinglist);
   // });
 
+  // app.post("/reservations/new", function(req, res){
+  //     var newReservation = req.body;
+  //     console.log(newReservation);
+  //     if (reservations.length > 4){
+  //         waitingList.push(newReservation);
+  //     }
+  //     else {
+  //         reservations.push(newReservation);
+  //     }
+      
+  //     res.json(newReservation);
+  // });
+
+  //     app.post("/api/newphoto", function(req, res){
+  //         var newReservation = req.body;
+  //         console.log(newReservation);
+  //         if (reservations.length > 4){
+  //             waitingList.push(newReservation);
+  //         }
+  //         else {
+  //             reservations.push(newReservation);
+  //         }
+          
+  //         res.json(newReservation);
+  //     );
+  // };
   app.post("/games/new", function (req, res) {
     db.Game.create(req.body).then(function(response) {
       res.json(response);
