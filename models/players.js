@@ -4,9 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Player.associate = function(models) {
-    Player.hasMany(models.Photo, {
-      as: "playerId"
-    });
+    Player.hasMany(models.Photo);
     Player.hasMany(models.Photo, {
       as: "captionerId"
     });

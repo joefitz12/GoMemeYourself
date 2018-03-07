@@ -8,7 +8,6 @@ module.exports = function(sequelize, DataTypes) {
   Photo.associate = function(models) {
     Photo.belongsTo(models.Player, {
       foreignKey: {
-        name: "playerId",
         allowNull: false
       }
     });
