@@ -1,4 +1,3 @@
-var path = require("path");
 var express = require("express");
 var bodyParser = require("body-parser");
 
@@ -11,6 +10,8 @@ app.use(bodyParser.json());
 
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
+
+app.use(express.static("public"));
 
 //Listening//
 
