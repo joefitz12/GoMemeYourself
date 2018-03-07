@@ -15,13 +15,9 @@ module.exports = function(sequelize, DataTypes) {
 
     Photo.belongsTo(models.Player, {
       foreignKey: {
-        name: "captionerId",
-        allowNull: false
+        name: "captionerId"
       }
     });
   };
   return Photo;
 };
-
-db.teamMember.belongsTo(db.employee, {as: 'SupervisorId'});
-db.teamMember.belongsTo(db.employee, {as: 'RegularEmployeeId'});
