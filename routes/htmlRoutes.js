@@ -1,5 +1,10 @@
 //HTTP Routes//
-
-app.get("/", function(req, res){
-    res.sendFile(path.join(__dirname, "index.html"));
-});
+module.exports = function(app){
+    app.get("/", function(req, res){
+        res.sendFile(path.join(__dirname, "index.html"));
+    });
+    
+    app.get("/phone-camera", function(req, res){
+        res.sendFile(path.join(__dirname, "phone-camera.html"));
+    });
+};
