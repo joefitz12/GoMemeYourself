@@ -1,5 +1,5 @@
 //API Routes//
-
+// module.exports = function(app){
 // app.get("/reservations", function(req, res){
 //     res.json(reservations);
 // });
@@ -20,3 +20,17 @@
     
 //     res.json(newReservation);
 // });
+
+//     app.post("/api/newphoto", function(req, res){
+//         var newReservation = req.body;
+//         console.log(newReservation);
+//         if (reservations.length > 4){
+//             waitingList.push(newReservation);
+//         }
+//         else {
+//             reservations.push(newReservation);
+//         }
+        
+//         res.json(newReservation);
+//     );
+// };
