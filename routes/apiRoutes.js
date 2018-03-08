@@ -42,11 +42,22 @@ module.exports = function (app) {
   });
 
   app.get("/photos/:game/:round", function(req, res) {
-    db.Photos.findAll({
-      where: {
-        gameId: req.params.game,
-        round: req.params.round
-      }
-    })
+    db.Game.update(
+      {round: req.params.round},
+      {where: {id: req.params.game}}
+    )
+      .then(function() {
+        db.Photo.findAll({
+          attributes: ["PlayerId", "location"],
+          where: {
+            GameId: req.params.game,
+            round: req.params.round
+          }
+        })
+        .then(function(data) {
+          console.log("data");
+          res.json(data);
+        });
+      });
   })
 }

@@ -1,5 +1,5 @@
 let gameState = {
-  gameId: 0,
+  id: 0,
   round: 0,
 };
 
@@ -12,10 +12,10 @@ function createNewGame(){
     });
 }
 
-function setGameState(data) {
+function setGameState(oldState) {
   return {
-    gameId: data.id,
-    round: incrementRound(data.round)
+    id: oldState.id,
+    round: incrementRound(oldState.round)
   }
 }
 
@@ -30,6 +30,6 @@ function renderNewGame(data) {
 }
 
 function getPhotos() {
-  $.get("/photos/:game/:round")
-    .then(startRound);
+  $.get("/photos/" + gameState.id + "/" + gameState.round)
+    .then(firebaseBot.startRound);
 }
