@@ -1,17 +1,11 @@
 //API Routes//
 var db = require("../models");
 
-var multer = require('multer');
-var storage = multer.memoryStorage();
-var upload = multer({ storage: storage });
-
-
-var S3FS = require("s3fs");
-var bucketPath = "game-photos";
-var s30options = {
-    region: 'us-east-1'
-};
-var fsImpl = new S3FS(bucketPath, s30options);
+var express = require('express');
+var app = express();
+var path = require('path');
+var formidable = require('formidable');
+var fs = require('fs');
 
 module.exports = function (app) {
     // app.get("/reservations", function(req, res){
@@ -35,20 +29,50 @@ module.exports = function (app) {
     //     res.json(newReservation);
     // });
 
-    app.post("/api/newphoto", upload.single('fileupload'), function (req, res, next) {
-        // req.file is the `fileupload` file 
-        // req.body will hold the text fields, if there were any   
-        var fileName = "test-file";
-        fsImpl.writeFile(fileName, req.file.buffer, "binary", function (err) {
-            if (err) throw (err);
-            db.Art.create({
-                art_file: 'https://s3.amazonaws.com/chickenscratchdb/' + fileName,
-                ContributionId: req.body.ContributionId,
-                StoryId: req.body.StoryId
-            }).then(function (results) {
-                res.redirect("/story/" + req.body.StoryId);
-            });
+    // app.post("/api/photos/new", upload.single('photo-to-upload'), function (req, res) {
+    //     console.log("req.body.file", req.body.file);
+    //     // req.file is the `fileupload` file 
+    //     // req.body will hold the text fields, if there were any   
+    //     var fileName = "test-file";
+    //     fsImpl.writeFile(fileName, req.body.file, "binary", function (err) {
+    //         if (err) throw (err);
+    //         db.Photo.create({
+    //             location: 'https://s3.us-east-2.amazonaws.com/game-photos/' + fileName
+    //         }).then(function (results) {
+    //             res.end();
+    //         });
+    //     });
+    // });
+
+    app.post('/api/photos/new', function(req, res){
+
+        console.log("api route hit!");
+
+        // create an incoming form object
+        var form = new formidable.IncomingForm();
+      
+        // store all uploads in the /uploads directory
+        form.uploadDir = path.join(__dirname, '../public/photos');
+      
+        // every time a file has been uploaded successfully,
+        // rename it to it's orignal name
+        form.on('file', function(field, file) {
+          fs.rename(file.path, path.join(form.uploadDir, file.name));
         });
+      
+        // log any errors that occur
+        form.on('error', function(err) {
+          console.log('An error has occured: \n' + err);
+        });
+      
+        // once all the files have been uploaded, send a response to the client
+        form.on('end', function() {
+          res.end('success');
+        });
+      
+        // parse the incoming request containing the form data
+        form.parse(req);
+      
     });
 
     app.post("/games/new", function (req, res) {
