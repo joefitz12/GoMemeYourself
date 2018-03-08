@@ -1,12 +1,16 @@
-$("#start-game").on("click", createNewGame);
-
 function createNewGame(){
-  console.log("start button clicked");
   let gameData = {round: 0}
   $.post("/games/new", gameData)
-    .then(function(data) {
-      console.log(data);
-      // data is game object from db
-      // jQuery render gameID and start round button to page
-    });
+    .then(renderNewGame);
 }
+
+function renderNewGame(data) {
+  $("#start-game").hide();
+  $("#game-info__display").show();
+  $("#game-id__display").text("Game ID: " + data.id);
+}
+
+$(document).ready(function() {
+  $("#game-info__display").hide();
+  $("#start-game").on("click",createNewGame);
+});
