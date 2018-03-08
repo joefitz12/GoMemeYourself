@@ -1,4 +1,5 @@
 //API Routes//
+var db = require("../models");
 
 var multer = require('multer');
 var storage = multer.memoryStorage();
@@ -47,6 +48,12 @@ module.exports = function (app) {
             }).then(function (results) {
                 res.redirect("/story/" + req.body.StoryId);
             });
+        });
+    });
+
+    app.post("/games/new", function (req, res) {
+        db.Game.create(req.body).then(function (response) {
+            res.json(response);
         });
     });
 };
