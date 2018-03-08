@@ -40,4 +40,13 @@ module.exports = function (app) {
       res.json(response);
     });
   });
+
+  app.get("/photos/:game/:round", function(req, res) {
+    db.Photos.findAll({
+      where: {
+        gameId: req.params.game,
+        round: req.params.round
+      }
+    })
+  })
 }
