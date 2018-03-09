@@ -14,6 +14,7 @@ const firebaseBot = (function() {
 
   function assignPhotos(data) {
     console.log(data);
+    
     //logic for creating object to send to firebase
     //returns object
   }

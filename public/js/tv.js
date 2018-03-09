@@ -27,6 +27,12 @@ function updateGameState(oldState, newProp) {
   }
 }
 
+function createPlayersArray(data) {
+  let newArray = [];
+  data.forEach(dataObj => newArray.push(dataObj.PlayerId));
+  return newArray;
+}
+
 function incrementRound(currentRound) {
   return ++currentRound;
 }

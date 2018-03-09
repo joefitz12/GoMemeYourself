@@ -19,6 +19,34 @@ describe("setGameState", function() {
   });
 });
 
+let photosData = [{
+  id: 1,
+  location: "photos/something.jpg", 
+  PlayerId: 2
+}, {
+  id: 2,
+  location: "photos/duck.jpg", 
+  PlayerId: 3
+}, {
+  id: 4,
+  location: "photos/duck.jpg", 
+  PlayerId: 5
+}, {
+  id: 5,
+  location: "photos/duck.jpg", 
+  PlayerId: 4
+}];
+
+describe("createPlayersArray", function() {
+  it("returns an array with all PlayerIds for the round", function() {
+    chai.expect(createPlayersArray(photosData)).to.deep.equal([2, 3, 5, 4]);
+  });
+
+  it("returns an empty array if no data", function() {
+    chai.expect(createPlayersArray([])).to.deep.equal([]);
+  });
+});
+
 let newProp = [2342, 5232, 12315, 6342];
 
 describe("setGameState", function() {
