@@ -6,10 +6,11 @@
     <title>Go Meme Yourself</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <link rel="stylesheet" href="css/phone.css" />
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -23,13 +24,16 @@
         </div>
     </div>
     <div class="container">
-        <form>
-            Room ID:
-            <br />
-            <input type="text" id="room-id" name="roomID">
-            <input type="submit" id="room-id-submit" value="Submit">
-        </form>
-
+        <div class="row form-row">
+            <div class="col-md-12">
+                <form id="join-room">
+                    Room ID
+                    <br />
+                    <input type="text" id="room-id" name="roomID" value="Room ID here!">
+                </form>
+                <button id="room-id-submit">Submit</button>
+            </div>
+        </div>
     </div>
 
     <script src="js/phone.js"></script>

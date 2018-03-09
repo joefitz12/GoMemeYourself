@@ -6,10 +6,12 @@
     <title>Go Meme Yourself</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous" />
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../css/phone.css" />
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -24,15 +26,33 @@
     </div>
     <div class="container">
 
-        <div id="photo"></div>
+        <div class="row upload-photo">
 
-        <button class="btn btn-lg" id="photo-submit">Add Photo</button>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="photo-placeholder">
+                            <i class="fas fa-camera-retro"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="photo-submit">Add Photo</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="progress">
-            <div class="progress-bar" role="progressbar"></div>
+            <input type="file" id="photo-to-upload" name="photo-to-upload" accept="image/*" capture="camera" />
+
         </div>
-
-        <input type="file" id="photo-to-upload" name="photo-to-upload" accept="image/*" capture="camera" />
 
     </div>
 
