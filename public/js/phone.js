@@ -6,8 +6,8 @@ $("#photo-submit").on("click", function (event) {
 $("#photo-to-upload").on('change', function () {
 
   var files = $(this).get(0).files;
-  let gameID = 1;
-  let playerID = 2;
+  let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length),(window.location.pathname.indexOf("/",(window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+  let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length),(window.location.pathname.indexOf("/",(window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
   let roundNumber = 3;
 
   if (files.length > 0) {
@@ -17,10 +17,10 @@ $("#photo-to-upload").on('change', function () {
 
     // loop through all the selected files and add them to the formData object
     for (var i = 0; i < files.length; i++) {
-      var file2 = files[i];
+      var file = files[i];
 
       // add the files to formData object for the data payload
-      formData.append('uploads[]', file2, file2.name);
+      formData.append('uploads[]', file, file.name);
       formData.append('gameID', gameID);
       formData.append('playerID', playerID);
       formData.append('roundNumber', roundNumber);
@@ -69,4 +69,23 @@ $("#photo-to-upload").on('change', function () {
     });
 
   }
+});
+
+$("#room-id-submit").on("click", function(event){
+  event.preventDefault();
+
+  let gameID = $("#room-id").val();
+
+  $.ajax({
+    url: '/players/new',
+    type: 'POST',
+    data: gameID,
+    processData: false,
+    contentType: false,
+    success: function (data) {
+      console.log('join successful!\n' + data.id);
+      let playerID = data.id;
+      location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/");
+    }
+  });
 });

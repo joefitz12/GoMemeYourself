@@ -93,6 +93,13 @@ module.exports = function (app) {
         });
     });
 
+    app.post("/players/new", function(req, res){
+        db.Player.create(req.body).then(function(response){
+            console.log(response);
+            res.json(response);
+        });
+    });
+
     app.get("/photos/:game/:round", function (req, res) {
         db.Game.update(
             { round: req.params.round },
