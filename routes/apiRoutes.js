@@ -8,60 +8,108 @@ var formidable = require('formidable');
 var fs = require('fs');
 
 module.exports = function (app) {
-  app.post('/api/photos/new', function (req, res) {
 
-    console.log("api route hit!");
 
-    // create an incoming form object
-    var form = new formidable.IncomingForm();
+    app.post('/api/photos/new', function (req, res) {
 
-    // store all uploads in the /uploads directory
-    form.uploadDir = path.join(__dirname, '../public/photos');
+        // create an incoming form object
+        var form = new formidable.IncomingForm();
+        let fileName = "";
+        let dbLocation = "photos/" + fileName;
+        let gameID = 0;
+        let playerID = 0;
+        let roundNumber = 0;
 
-    // every time a file has been uploaded successfully,
-    // rename it to it's orignal name
-    form.on('file', function (field, file) {
-      fs.rename(file.path, path.join(form.uploadDir, file.name));
+        // for (var pair of form.entries()) {
+        //     console.log(pair[0] + ', ' + pair[1]);
+        // }
+
+        // store all uploads in the /uploads directory
+        form.uploadDir = path.join(__dirname, '../public/photos');
+
+
+        // every time a file has been uploaded successfully,
+        // rename it to it's orignal name
+        form.on('file', function (field, file) {
+            console.log("field:", field);
+            console.log("file.name:", file.name);
+            fileName = file.name;
+            console.log("fileName", fileName);
+            dbLocation = "photos/" + fileName;
+            fs.rename(file.path, path.join(form.uploadDir, file.name));
+        });
+
+        form.on('field', function (name, value) {
+            if (name === "gameID") {
+                gameID = value;
+            }
+            else if (name === "playerID") {
+                playerID = value;
+            }
+            else if (name === "roundNumber") {
+                roundNumber = parseInt(value);
+            }
+
+           
+
+            console.log("roundNumber", roundNumber);
+            console.log("dbLocation", dbLocation);
+
+        });
+
+        console.log("fileName", fileName);
+
+
+        // log any errors that occur
+        form.on('error', function (err) {
+            console.log('An error has occured: \n' + err);
+        });
+
+
+
+        // once all the files have been uploaded, send a response to the client
+        form.on('end', function () {
+            console.log("end roundNumber", roundNumber);
+            console.log("end dbLocatoion", dbLocation);
+            db.Photo.create({
+                GameId: parseInt(gameID),
+                PlayerId: parseInt(playerID),
+                round: roundNumber,
+                location: dbLocation,
+            }).then(() => console.log("end callback"));
+            res.end('success');
+        });
+
+        // parse the incoming request containing the form data
+        form.parse(req);
+
     });
 
-    // log any errors that occur
-    form.on('error', function (err) {
-      console.log('An error has occured: \n' + err);
+
+
+    app.post("/games/new", function (req, res) {
+        db.Game.create(req.body).then(function (response) {
+            res.json(response);
+        });
     });
 
-    // once all the files have been uploaded, send a response to the client
-    form.on('end', function () {
-      res.end('success');
+    app.get("/photos/:game/:round", function (req, res) {
+        db.Game.update(
+            { round: req.params.round },
+            { where: { id: req.params.game } }
+        )
+            .then(function () {
+                db.Photo.findAll({
+                    attributes: ["PlayerId", "location"],
+                    where: {
+                        GameId: req.params.game,
+                        round: req.params.round
+                    }
+                })
+                    .then(function (data) {
+                        console.log("data");
+                        res.json(data);
+                    });
+            });
     });
-
-    // parse the incoming request containing the form data
-    form.parse(req);
-
-  });
-
-  app.post("/games/new", function (req, res) {
-    db.Game.create(req.body).then(function (response) {
-      res.json(response);
-    });
-  });
-
-  app.get("/photos/:game/:round", function (req, res) {
-    db.Game.update(
-      { round: req.params.round },
-      { where: { id: req.params.game } }
-    )
-      .then(function () {
-        db.Photo.findAll({
-          attributes: ["PlayerId", "location"],
-          where: {
-            GameId: req.params.game,
-            round: req.params.round
-          }
-        })
-          .then(function (data) {
-            console.log("data");
-            res.json(data);
-          });
-      });
-  });
 };
