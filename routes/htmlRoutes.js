@@ -10,7 +10,7 @@ module.exports = function(app){
         res.sendFile(path.join(__dirname, "../public/phone-join.html"));
     });
     
-    app.get("/phone-camera", function(req, res){
+    app.get("/phone-camera/*/*/", function(req, res){
         res.sendFile(path.join(__dirname, "../public/phone-camera.html"));
     });
 
