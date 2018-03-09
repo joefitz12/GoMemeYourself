@@ -66,7 +66,7 @@ $("#photo-to-upload").on('change', function () {
 
         return xhr;
       }
-    });
+    }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/"));
 
   }
 });
@@ -86,6 +86,31 @@ $("#room-id-submit").on("click", function(event){
       console.log('join successful!\n' + data.id);
       let playerID = data.id;
       location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/");
+    }
+  });
+});
+
+$("#caption-submit").on("click", function(event){
+  event.preventDefault();
+
+  let caption = $("#caption-value").val();
+
+  let id = 2;
+
+  let captionData = {
+    photoID: id,
+    captionText: caption,
+    captionerID: parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length),(window.location.pathname.indexOf("/",(window.location.pathname.indexOf("playerID=") + "playerID=".length)))))
+  };
+
+  console.log("captionData", captionData);
+
+  $.ajax({
+    url: '/captions/new',
+    type: 'PUT',
+    data: captionData,
+    success: function (data) {
+      console.log('caption successful!\n' + data);
     }
   });
 });
