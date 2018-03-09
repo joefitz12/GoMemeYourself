@@ -9,7 +9,7 @@ var fs = require('fs');
 
 module.exports = function (app) {
 
-
+ //POST Routes
     app.post('/api/photos/new', function (req, res) {
 
         // create an incoming form object
@@ -41,10 +41,10 @@ module.exports = function (app) {
 
         form.on('field', function (name, value) {
             if (name === "gameID") {
-                gameID = value;
+                gameID = parseInt(value);
             }
             else if (name === "playerID") {
-                playerID = value;
+                playerID = parseInt(value);
             }
             else if (name === "roundNumber") {
                 roundNumber = parseInt(value);
@@ -72,8 +72,8 @@ module.exports = function (app) {
             console.log("end roundNumber", roundNumber);
             console.log("end dbLocatoion", dbLocation);
             db.Photo.create({
-                GameId: parseInt(gameID),
-                PlayerId: parseInt(playerID),
+                GameId: gameID,
+                PlayerId: playerID,
                 round: roundNumber,
                 location: dbLocation,
             }).then(() => console.log("end callback"));
@@ -95,11 +95,28 @@ module.exports = function (app) {
 
     app.post("/players/new", function(req, res){
         db.Player.create(req.body).then(function(response){
-            console.log(response);
             res.json(response);
         });
     });
 
+ //PUT Routes
+    app.put("/captions/new", function (req, res){
+    
+        db.Photo.update({
+            caption: req.body.captionText,
+            captionerId: req.body.captionerID
+        },
+        {
+            where: {
+                id: req.body.photoID
+            }
+        }).then(function(response){
+            console.log(response);
+            res.json(response);
+        });
+    }); 
+
+ //GET Routes
     app.get("/photos/:game/:round", function (req, res) {
         db.Game.update(
             { round: req.params.round },
