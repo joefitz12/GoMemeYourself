@@ -13,12 +13,13 @@ const firebaseBot = (function() {
   var database = firebase.database();
 
   function assignPhotos(data) {
+    console.log(data);
     //logic for creating object to send to firebase
     //returns object
   }
 
   function startRound(data) {
-    console.log(data);
+    assignPhotos(data);
     // update firebase with assignPhotos(data) 
     // Firebase startRound set to true
   }

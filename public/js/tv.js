@@ -1,6 +1,7 @@
 let gameState = {
   id: 0,
   round: 0,
+  players: []
 };
 
 function createNewGame(){
@@ -12,10 +13,17 @@ function createNewGame(){
     });
 }
 
-function setGameState(oldState) {
+function setGameState(data) {
   return {
-    id: oldState.id,
-    round: incrementRound(oldState.round)
+    id: data.id,
+    round: incrementRound(data.round)
+  }
+}
+
+function updateGameState(oldState, newProp) {
+  return {
+    ...oldState,
+    players: newProp
   }
 }
 
