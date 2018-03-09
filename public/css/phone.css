@@ -34,7 +34,7 @@ h1 {
     width: 100%;
 }
 
-#photo-placeholder {
+.photo-placeholder {
     background: lightgray;
     position: relative;
     text-align: center;
