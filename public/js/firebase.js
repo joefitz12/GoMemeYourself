@@ -14,9 +14,17 @@ const firebaseBot = (function() {
 
   function assignPhotos(data) {
     console.log(data);
-    
-    //logic for creating object to send to firebase
-    //returns object
+    gameState = updateGameState(gameState, createPlayersArray(data));
+    console.log(gameState);
+    let roundObj = {};
+    for (let i = 0; i < gameState.players.length; i++) {
+      let j = 0;
+      if (i !== gameState.players.length - 1) {
+        j = i + 1;
+      }
+      roundObj[gameState.players[i]] = data[j];
+    }
+    return roundObj;
   }
 
   function startRound(data) {
