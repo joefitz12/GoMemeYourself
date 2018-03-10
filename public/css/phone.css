@@ -6,6 +6,8 @@ body {
 
 .phone-header {
     background: #D1FAFF;
+    border-bottom: solid 2px #FFA69E;
+    border-top: solid 2px #FFA69E;
 }
 
 h1 {
@@ -34,6 +36,10 @@ h1 {
     width: 100%;
 }
 
+#photo-section {
+    position: relative;
+}
+
 .photo-placeholder {
     background: lightgray;
     position: relative;
@@ -41,6 +47,7 @@ h1 {
     width: 100%;
     height: 70vw;
     font-size: 60vw;
+    overflow: hidden;
 }
 
 .fa-camera-retro {
@@ -48,6 +55,35 @@ h1 {
     top: 5vw;
     left: 5vw;
     color: grey;
+}
+
+#rotate-div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.fa-undo-alt {
+    position: absolute;
+    color: #FFA69E;
+}
+
+.rotate-right {
+    top: 45%;
+    left: -10%;
+}
+
+.rotate-left {
+    top: 45%;
+    right: -10%;
+}
+
+#flip {
+    -moz-transform: scale(-1, 1);
+    -webkit-transform: scale(-1, 1);
+    -o-transform: scale(-1, 1);
+    -ms-transform: scale(-1, 1);
+    transform: scale(-1, 1);
 }
 
 button {
