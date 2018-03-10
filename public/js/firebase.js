@@ -13,14 +13,36 @@ const firebaseBot = (function() {
   var database = firebase.database();
 
   function assignPhotos(data) {
-    //logic for creating object to send to firebase
-    //returns object
+    console.log(data);
+    gameState = updateGameState(gameState, createPlayersArray(data));
+    console.log(gameState);
+    let roundObj = {};
+    for (let i = 0; i < gameState.players.length; i++) {
+      let j = 0;
+      if (i !== gameState.players.length - 1) {
+        j = i + 1;
+      }
+      roundObj[gameState.players[i]] = data[j];
+    }
+    return roundObj;
   }
 
   function startRound(data) {
-    console.log(data);
+    let firebaseData = assignPhotos(data);
+
     // update firebase with assignPhotos(data) 
-    // Firebase startRound set to true
+    database.ref('games/' + gameState.id).set({
+      photos: firebaseData,
+      startRound: true,
+      captionCount: 0        
+    })
+      .then(function() {
+        database.ref("games/" + gameState.id + "/captionCount").on("value", function(snap) {
+          if (snap.val() === gameState.players.length) {
+            console.log(snap.val());
+          }
+        });
+      });
   }
 
   return {
