@@ -28,9 +28,14 @@ const firebaseBot = (function() {
   }
 
   function startRound(data) {
-    assignPhotos(data);
+    let firebaseData = assignPhotos(data);
+
     // update firebase with assignPhotos(data) 
-    // Firebase startRound set to true
+    database.ref('games/' + gameState.id).set({
+      photos: firebaseData,
+      startRound: true,
+      captionCount: 0        
+    });
   }
 
   return {
