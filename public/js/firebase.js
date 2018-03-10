@@ -35,7 +35,14 @@ const firebaseBot = (function() {
       photos: firebaseData,
       startRound: true,
       captionCount: 0        
-    });
+    })
+      .then(function() {
+        database.ref("games/" + gameState.id + "/captionCount").on("value", function(snap) {
+          if (snap.val() === gameState.players.length) {
+            console.log(snap.val());
+          }
+        });
+      });
   }
 
   return {
