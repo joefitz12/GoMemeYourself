@@ -10,6 +10,7 @@ function createNewGame(){
     .then(function(data){
       renderNewGame(data);
       gameState = setGameState(data);
+      firebaseBot.createNewGame();
     });
 }
 

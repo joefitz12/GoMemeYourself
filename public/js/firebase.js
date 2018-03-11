@@ -27,25 +27,38 @@ const firebaseBot = (function() {
     return roundObj;
   }
 
+  // function to set start round to false on fb
+  // function to add listener on caption count
+  function addCaptionListener() {
+    database.ref("games/" + gameState.id + "/captionCount").on("value", function(snap) {
+      if (snap.val() === gameState.players.length) {
+        console.log(snap.val());
+      }
+    });
+  }
+
+  // function to create new game
+  function createNewGame() {
+    database.ref('games/' + gameState.id).set({
+      photos: [],
+      startRound: true,
+      captionCount: 0        
+    });
+  }
+
   function startRound(data) {
     let firebaseData = assignPhotos(data);
-
     // update firebase with assignPhotos(data) 
     database.ref('games/' + gameState.id).set({
       photos: firebaseData,
       startRound: true,
       captionCount: 0        
     })
-      .then(function() {
-        database.ref("games/" + gameState.id + "/captionCount").on("value", function(snap) {
-          if (snap.val() === gameState.players.length) {
-            console.log(snap.val());
-          }
-        });
-      });
+      .then(addCaptionListener);
   }
 
   return {
     startRound,
+    createNewGame
   }
 })();
