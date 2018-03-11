@@ -28,11 +28,25 @@ const firebaseBot = (function() {
   }
 
   // function to set start round to false on fb
+  function resetStartRound() {
+    database.ref('games/' + gameState.id).update({
+      startRound: false
+    });
+  }
+
+  function renderPhotoCaptions(response) {
+    console.log(response);
+  }
+
   // function to add listener on caption count
   function addCaptionListener() {
     database.ref("games/" + gameState.id + "/captionCount").on("value", function(snap) {
-      if (snap.val() === gameState.players.length) {
-        console.log(snap.val());
+      console.log("captions: ", snap.val())
+      console.log("players: ", gameState.players.length)
+      if (snap.val() !== 0 && snap.val() === gameState.players.length) {
+        $.get("/photos/" + gameState.id + "/" + gameState.round)
+          .then(renderPhotoCaptions)
+          .then(resetStartRound);
       }
     });
   }
@@ -43,18 +57,18 @@ const firebaseBot = (function() {
       photos: [],
       startRound: true,
       captionCount: 0        
-    });
+    })
+      .then(addCaptionListener);
   }
 
   function startRound(data) {
     let firebaseData = assignPhotos(data);
     // update firebase with assignPhotos(data) 
-    database.ref('games/' + gameState.id).set({
+    database.ref('games/' + gameState.id).update({
       photos: firebaseData,
       startRound: true,
-      captionCount: 0        
-    })
-      .then(addCaptionListener);
+      captionCount: 0  
+    });
   }
 
   return {

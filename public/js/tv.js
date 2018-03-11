@@ -17,7 +17,8 @@ function createNewGame(){
 function setGameState(data) {
   return {
     id: data.id,
-    round: incrementRound(data.round)
+    round: incrementRound(data.round),
+    players: []
   }
 }
 
