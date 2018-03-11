@@ -82,22 +82,19 @@ module.exports = function (app) {
 
     // parse the incoming request containing the form data
     form.parse(req);
+  });
 
-
-    console.log("fileName", fileName);
-
-
-    // log any errors that occur
-    form.on('error', function (err) {
-      console.log('An error has occured: \n' + err);
-    });
+  app.post("/games/new", function (req, res) {
+      db.Game.create(req.body).then(function (response) {
+          res.json(response);
+      });
+  });
 
     app.post("/players/new", function (req, res) {
       db.Player.create(req.body).then(function (response) {
         res.json(response);
       });
     });
-  });
 
   //PUT Routes
   app.put("/captions/new", function (req, res) {
