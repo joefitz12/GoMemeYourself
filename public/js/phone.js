@@ -22,7 +22,7 @@ $("#photo-submit").on('click', function () {
     var files = $("#photo-to-upload").get(0).files;
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
-    let roundNumber = 3;
+    let roundNumber = 1;
 
     if (files.length > 0) {
       // create a FormData object which will be sent as the data payload in the
@@ -127,14 +127,14 @@ $("#room-id-submit").on("click", function (event) {
 $("#caption-submit").on("click", function (event) {
   event.preventDefault();
 
+  let id = $(".photo-placeholder").attr("data-photoID");
   let caption = $("#caption-value").val();
-
-  let id = 8;
+  let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
 
   let captionData = {
     photoID: id,
     captionText: caption,
-    captionerID: parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))))
+    captionerID: captionerID
   };
 
   console.log("captionData", captionData);
@@ -146,5 +146,6 @@ $("#caption-submit").on("click", function (event) {
     success: function (data) {
       console.log('caption successful!\n' + data);
     }
-  });
+  })
+  .then(firebaseBot.incrementCaptionCount());
 });

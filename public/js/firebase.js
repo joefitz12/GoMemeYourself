@@ -77,8 +77,37 @@ const firebaseBot = (function() {
     });
   }
 
+  function addStartRoundListener(){
+    let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+    let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+    database.ref("games/" + gameID + "/startRound").on("value", function(snap) {
+      if (snap.val() === true) {
+        database.ref("games/" + gameID + "/photos").once("value")
+          .then(function(snapshot){
+            console.log("snapshot", snapshot.val());
+            $(".fa-camera-retro").hide();
+            $(".photo-placeholder").css("background-image","url('../../../" + snapshot.val()[playerID].location + "')");
+            $(".photo-placeholder").css("background-size", "cover");
+            $(".photo-placeholder").attr("data-photoID",snapshot.val()[playerID].id);
+          });
+      }
+    });
+  }
+
+  function incrementCaptionCount(){
+    let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+    database.ref('games/' + gameID + '/captionCount').once("value").then(function(snapshot){
+      let newCaptionCount = snapshot.val() + 1;
+      database.ref('games/' + gameID).update({
+        captionCount: newCaptionCount 
+      });
+    });
+  }
+
   return {
     startRound,
+    addStartRoundListener,
     createNewGame,
+    incrementCaptionCount
   }
 })();
