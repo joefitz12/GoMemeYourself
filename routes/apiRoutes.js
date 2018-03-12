@@ -65,6 +65,17 @@ module.exports = function (app) {
             console.log('An error has occured: \n' + err);
         });
 
+        form.on('end', function () {
+            console.log("end roundNumber", roundNumber);
+            console.log("end dbLocatoion", dbLocation);
+            db.Photo.create({
+                GameId: gameID,
+                PlayerId: playerID,
+                round: roundNumber,
+                location: dbLocation,
+            }).then(() => console.log("end callback"));
+            res.end('success');
+        });
 
         // parse the incoming request containing the form data
         form.parse(req);
