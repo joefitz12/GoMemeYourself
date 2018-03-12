@@ -127,14 +127,14 @@ $("#room-id-submit").on("click", function (event) {
 $("#caption-submit").on("click", function (event) {
   event.preventDefault();
 
+  let id = $(".photo-placeholder").attr("data-photoID");
   let caption = $("#caption-value").val();
-
-  let id = 8;
+  let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
 
   let captionData = {
     photoID: id,
     captionText: caption,
-    captionerID: parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))))
+    captionerID: captionerID
   };
 
   console.log("captionData", captionData);
