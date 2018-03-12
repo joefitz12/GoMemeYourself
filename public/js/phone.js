@@ -109,8 +109,6 @@ $("#room-id-submit").on("click", function (event) {
   event.preventDefault();
 
   let gameID = $("#room-id").val();
-  console.log(gameID);
-  debugger;
   $.ajax({
     url: '/players/new',
     type: 'POST',
