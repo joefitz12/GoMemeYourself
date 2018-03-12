@@ -9,8 +9,8 @@ $("#photo-to-upload").on("change", function(){
     let imageFile = $("#photo-to-upload").get(0).files[0];
     let preview = $('<img>');
     preview.src = window.URL.createObjectURL(imageFile);
-    $("#camera-button").css("background-image","url('" + preview.src + "')");
-    $("#camera-button").css("background-size","cover");
+    $("#rotate-div").css("background-image","url('" + preview.src + "')");
+    $("#rotate-div").css("background-size","cover");
   }
   else {
     $(".fa-camera-retro").show();
@@ -83,6 +83,26 @@ $("#photo-submit").on('click', function () {
       }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/"));
     }
   }
+});
+
+$(".fa-undo-alt").on("click", function(){
+    function getRotationDegrees(obj) {
+      var matrix = obj.css("-webkit-transform") || obj.css("transform");
+      if(matrix !== 'none') {
+          var values = matrix.split('(')[1].split(')')[0].split(',');
+          var a = values[0];
+          var b = values[1];
+          var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+      } else { var angle = 0; }
+      return angle;
+    }
+
+    if ($(this).hasClass("rotate-right")){
+      $("#rotate-div").css("transform","rotate(" + parseInt(getRotationDegrees($("#rotate-div")) + 90) + "deg)");
+    }
+    else {
+      $("#rotate-div").css("transform","rotate(" + parseInt(getRotationDegrees($("#rotate-div")) - 90) + "deg)");
+    }
 });
 
 $("#room-id-submit").on("click", function (event) {
