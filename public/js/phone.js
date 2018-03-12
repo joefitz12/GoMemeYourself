@@ -80,7 +80,8 @@ $("#photo-submit").on('click', function () {
 
           return xhr;
         }
-      }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/"));
+      });
+      // .then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/"));
     }
   }
 });
