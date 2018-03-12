@@ -88,6 +88,7 @@ module.exports = function (app) {
     });
 
     app.post("/players/new", function (req, res) {
+        console.log(req.body);
         db.Player.create(req.body).then(function (response) {
             console.log(req.body);
             res.json(response);
@@ -164,7 +165,11 @@ module.exports = function (app) {
         )
             .then(function () {
                 db.Photo.findAll({
+<<<<<<< HEAD
                     attributes: ["id", "PlayerId", "location"],
+=======
+                    attributes: ["id", "PlayerId", "location", "caption"],
+>>>>>>> 1e3aa8453c8a9c43c9dd415f318abd4560c8d964
                     where: {
                         GameId: req.params.game,
                         round: req.params.round
