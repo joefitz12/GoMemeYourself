@@ -61,7 +61,7 @@ const firebaseBot = (function() {
   function createNewGame() {
     database.ref('games/' + gameState.id).set({
       photos: [],
-      startRound: true,
+      startRound: false,
       captionCount: 0        
     })
       .then(addCaptionListener);

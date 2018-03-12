@@ -18,7 +18,7 @@ module.exports = function(app){
         res.sendFile(path.join(__dirname, "../public/phone-caption.html"));
     });
 
-    app.get("/phone-vote", function(req, res){
+    app.get("/phone-vote/*/*/", function(req, res){
         res.sendFile(path.join(__dirname, "../public/phone-vote.html"));
     });
 };
