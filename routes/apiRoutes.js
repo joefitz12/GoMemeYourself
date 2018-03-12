@@ -66,30 +66,13 @@ module.exports = function (app) {
         });
 
 
-
-        // once all the files have been uploaded, send a response to the client
-        form.on('end', function () {
-            console.log("end roundNumber", roundNumber);
-            console.log("end dbLocatoion", dbLocation);
-            db.Photo.create({
-                GameId: gameID,
-                PlayerId: playerID,
-                round: roundNumber,
-                location: dbLocation,
-            }).then(() => console.log("end callback"));
-            res.end('success');
-        });
-
         // parse the incoming request containing the form data
         form.parse(req);
+    });
 
-
-        console.log("fileName", fileName);
-
-
-        // log any errors that occur
-        form.on('error', function (err) {
-            console.log('An error has occured: \n' + err);
+    app.post("/games/new", function (req, res) {
+        db.Game.create(req.body).then(function (response) {
+            res.json(response);
         });
     });
 

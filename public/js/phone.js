@@ -22,7 +22,7 @@ $("#photo-submit").on('click', function () {
     var files = $("#photo-to-upload").get(0).files;
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
-    let roundNumber = 3;
+    let roundNumber = 1;
 
     if (files.length > 0) {
       // create a FormData object which will be sent as the data payload in the
