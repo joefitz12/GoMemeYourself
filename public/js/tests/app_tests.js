@@ -15,7 +15,7 @@ let data = {
 
 describe("setGameState", function() {
   it("returns an object with two properties", function() {
-    chai.expect(setGameState(data)).to.deep.equal({id: 4, round: 6});
+    chai.expect(setGameState(data)).to.deep.equal({id: 4, round: 6, players: []});
   });
 });
 
@@ -49,7 +49,7 @@ describe("createPlayersArray", function() {
 
 let newProp = [2342, 5232, 12315, 6342];
 
-describe("setGameState", function() {
+describe("resetGameState", function() {
   it("returns an object with all properties of oldState and adds newProp", function() {
     chai.expect(updateGameState(data, newProp)).to.deep.equal({id: 4, round: 5, players: [2342, 5232, 12315, 6342]});
   });

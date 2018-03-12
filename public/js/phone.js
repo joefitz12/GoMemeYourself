@@ -146,5 +146,6 @@ $("#caption-submit").on("click", function (event) {
     success: function (data) {
       console.log('caption successful!\n' + data);
     }
-  });
+  })
+  .then(firebaseBot.incrementCaptionCount());
 });
