@@ -99,11 +99,7 @@ const firebaseBot = (function () {
     database.ref('games/' + gameState.id).set({
       photos: [],
       startRound: false,
-<<<<<<< HEAD
-      captionCount: 0
-=======
       captionCount: 0        
->>>>>>> 1e3aa8453c8a9c43c9dd415f318abd4560c8d964
     })
       .then(addCaptionListener);
   }

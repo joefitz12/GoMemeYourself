@@ -109,19 +109,10 @@ $("#room-id-submit").on("click", function (event) {
   event.preventDefault();
 
   let gameID = $("#room-id").val();
-<<<<<<< HEAD
-  console.log(gameID);
-
-  $.ajax({
-    url: '/players/new',
-    type: 'POST',
-    data: gameID,
-=======
   $.ajax({
     url: '/players/new',
     type: 'POST',
     data: {GameId: parseInt(gameID)},
->>>>>>> 1e3aa8453c8a9c43c9dd415f318abd4560c8d964
     success: function (data) {
       console.log('join successful!\n' + data.id);
       let playerID = data.id;
