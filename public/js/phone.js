@@ -109,13 +109,12 @@ $("#room-id-submit").on("click", function (event) {
   event.preventDefault();
 
   let gameID = $("#room-id").val();
+  console.log(gameID);
 
   $.ajax({
     url: '/players/new',
     type: 'POST',
     data: gameID,
-    processData: false,
-    contentType: false,
     success: function (data) {
       console.log('join successful!\n' + data.id);
       let playerID = data.id;
@@ -126,7 +125,7 @@ $("#room-id-submit").on("click", function (event) {
 
 $("#caption-submit").on("click", function (event) {
   event.preventDefault();
-  
+
   let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
   let id = parseInt($(".photo-placeholder").attr("data-photoID"));
   let caption = $("#caption-value").val();
@@ -150,4 +149,22 @@ $("#caption-submit").on("click", function (event) {
   })
   .then(firebaseBot.incrementCaptionCount())
   .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/"));
+});
+
+$(".meme-submission").on("click",function(){
+  let photoID = $(this).attr("data-photoID");
+  let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+  let voteData = {
+    photoID: photoID,
+    playerID: playerID
+  };
+
+  $.ajax({
+    url: '/vote/add',
+    type: 'PUT',
+    data: voteData,
+    success: function (data) {
+      console.log('vote successful!\n' + data);
+    }
+  });
 });

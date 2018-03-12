@@ -89,6 +89,7 @@ module.exports = function (app) {
 
     app.post("/players/new", function (req, res) {
         db.Player.create(req.body).then(function (response) {
+            console.log(req.body);
             res.json(response);
         });
     });
@@ -96,6 +97,7 @@ module.exports = function (app) {
 
     //PUT Routes
     app.put("/captions/new", function (req, res) {
+
 
         db.Photo.update({
             caption: req.body.captionText,
@@ -108,6 +110,40 @@ module.exports = function (app) {
             }).then(function (response) {
                 console.log(response);
                 res.json(response);
+            });
+    });
+
+    app.put("/vote/add", function (req, res) {
+
+        console.log(req.body);
+
+        db.Photo.findOne({
+            where: {
+                id: req.body.photoID
+            }
+        }).then(function (photo) {
+            let updatedVotes = photo.votes + 1;
+            db.Photo.update({
+                votes: updatedVotes
+            },
+                {
+                    where: {
+                        id: photo.id
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                });
+        });
+
+        db.Player.update({
+            voted: true
+        },
+            {
+                where: {
+                    id: req.body.playerID
+                }
+            }).then(function (response) {
+                console.log(response);
             });
     });
 

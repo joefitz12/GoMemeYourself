@@ -1,6 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
   var Player = sequelize.define("Player", {
-    score: DataTypes.INTEGER
+    score: DataTypes.INTEGER,
+    voted: {type: DataTypes.BOOLEAN, defaultValue: DataTypes.false}
   });
 
   Player.associate = function(models) {
@@ -10,5 +11,6 @@ module.exports = function(sequelize, DataTypes) {
     });
     Player.belongsTo(models.Game);
   };
+
   return Player;
 };
