@@ -36,6 +36,12 @@ const firebaseBot = (function() {
 
   function renderPhotoCaptions(response) {
     console.log(response);
+    response.forEach(function(element) {
+      let photoEl = $("<img>").attr("src", element.location);
+      let captionEl = $("<p>").text(element.caption);
+      $("#photo-display").append(photoEl);
+      $("#photo-display").append(captionEl);
+    });
   }
 
   // function to add listener on caption count
