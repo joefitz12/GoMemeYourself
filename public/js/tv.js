@@ -10,13 +10,15 @@ function createNewGame(){
     .then(function(data){
       renderNewGame(data);
       gameState = setGameState(data);
+      firebaseBot.createNewGame();
     });
 }
 
 function setGameState(data) {
   return {
     id: data.id,
-    round: incrementRound(data.round)
+    round: incrementRound(data.round),
+    players: []
   }
 }
 
