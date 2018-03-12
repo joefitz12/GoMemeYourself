@@ -1,4 +1,4 @@
-const firebaseBot = (function() {
+const firebaseBot = (function () {
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyAOj3OME-VBQwfzp1VvOYu3XprFQvpvhHk",
@@ -36,7 +36,7 @@ const firebaseBot = (function() {
 
   function renderPhotoCaptions(response) {
     console.log(response);
-    response.forEach(function(element) {
+    response.forEach(function (element) {
       let photoEl = $("<img>").attr("src", element.location);
       let captionEl = $("<p>").text(element.caption);
       $("#photo-display").append(photoEl);
@@ -46,13 +46,50 @@ const firebaseBot = (function() {
 
   // function to add listener on caption count
   function addCaptionListener() {
-    database.ref("games/" + gameState.id + "/captionCount").on("value", function(snap) {
-      console.log("captions: ", snap.val())
-      console.log("players: ", gameState.players.length)
+    database.ref("games/" + gameState.id + "/captionCount").on("value", function (snap) {
+      console.log("captions: ", snap.val());
+      console.log("players: ", gameState.players.length);
       if (snap.val() !== 0 && snap.val() === gameState.players.length) {
         $.get("/photos/" + gameState.id + "/" + gameState.round)
           .then(renderPhotoCaptions)
           .then(resetStartRound);
+      }
+    });
+  }
+
+  // function displays memes on phones
+  function renderPhonePhotoCaptions(response) {
+    console.log(response);
+    response.forEach(function (element) {
+      let memeDiv = $("<div>");
+      let photoEl = $("<img>").attr("src", "../../../" + element.location);
+      let captionEl = $("<p>").text(element.caption);
+      memeDiv.addClass("meme-submission");
+      memeDiv.attr("data-photoID",element.id);
+      memeDiv.append(photoEl);
+      memeDiv.append(captionEl);
+      $("#vote-display").append(memeDiv);
+    });
+  }
+
+  // function add listener on caption count for phones
+  function phoneAddCaptionListener() {
+    let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+    let captionCount = 0;
+    database.ref("games/" + gameID + "/captionCount").on("value", function (snap) {
+      captionCount = snap.val();
+      console.log("captions: ", snap.val());
+    });
+    playerCount = 0;
+    database.ref("games/" + gameID).once("value", function (snap2) {
+      let photos = snap2.val().photos;
+      for (key in photos){
+        playerCount++;
+      }
+      console.log("playerCount", playerCount);
+      if (captionCount !== 0 && captionCount === playerCount) {
+        $.get("/photos/" + gameID + "/1")
+          .then(renderPhonePhotoCaptions);
       }
     });
   }
@@ -62,7 +99,7 @@ const firebaseBot = (function() {
     database.ref('games/' + gameState.id).set({
       photos: [],
       startRound: false,
-      captionCount: 0        
+      captionCount: 0
     })
       .then(addCaptionListener);
   }
@@ -73,33 +110,33 @@ const firebaseBot = (function() {
     database.ref('games/' + gameState.id).update({
       photos: firebaseData,
       startRound: true,
-      captionCount: 0  
+      captionCount: 0
     });
   }
 
-  function addStartRoundListener(){
+  function addStartRoundListener() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
-    database.ref("games/" + gameID + "/startRound").on("value", function(snap) {
+    database.ref("games/" + gameID + "/startRound").on("value", function (snap) {
       if (snap.val() === true) {
         database.ref("games/" + gameID + "/photos").once("value")
-          .then(function(snapshot){
+          .then(function (snapshot) {
             console.log("snapshot", snapshot.val());
             $(".fa-camera-retro").hide();
-            $(".photo-placeholder").css("background-image","url('../../../" + snapshot.val()[playerID].location + "')");
+            $(".photo-placeholder").css("background-image", "url('../../../" + snapshot.val()[playerID].location + "')");
             $(".photo-placeholder").css("background-size", "cover");
-            $(".photo-placeholder").attr("data-photoID",snapshot.val()[playerID].id);
+            $(".photo-placeholder").attr("data-photoID", snapshot.val()[playerID].id);
           });
       }
     });
   }
 
-  function incrementCaptionCount(){
+  function incrementCaptionCount() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
-    database.ref('games/' + gameID + '/captionCount').once("value").then(function(snapshot){
+    database.ref('games/' + gameID + '/captionCount').once("value").then(function (snapshot) {
       let newCaptionCount = snapshot.val() + 1;
       database.ref('games/' + gameID).update({
-        captionCount: newCaptionCount 
+        captionCount: newCaptionCount
       });
     });
   }
@@ -108,6 +145,7 @@ const firebaseBot = (function() {
     startRound,
     addStartRoundListener,
     createNewGame,
-    incrementCaptionCount
+    incrementCaptionCount,
+    phoneAddCaptionListener
   }
 })();

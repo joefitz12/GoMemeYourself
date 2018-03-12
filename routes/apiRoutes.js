@@ -115,36 +115,45 @@ module.exports = function (app) {
 
     app.put("/vote/add", function (req, res) {
 
-        console.log(req.body);
-
-        db.Photo.findOne({
+        db.Player.findOne({
             where: {
-                id: req.body.photoID
+                id: req.body.playerID
             }
-        }).then(function (photo) {
-            let updatedVotes = photo.votes + 1;
-            db.Photo.update({
-                votes: updatedVotes
-            },
-                {
-                    where: {
-                        id: photo.id
-                    }
-                }).then(function (response) {
-                    console.log(response);
-                });
-        });
+        }).then(function (player) {
+            if (!player.voted) {
+                db.Player.update({
+                    voted: true
+                },
+                    {
+                        where: {
+                            id: player.id
+                        }
+                    }).then(function (response) {
+                        console.log(response);
+                    });
 
-        db.Player.update({
-            voted: true
-        },
-            {
-                where: {
-                    id: req.body.playerID
-                }
-            }).then(function (response) {
-                console.log(response);
-            });
+                db.Photo.findOne({
+                    where: {
+                        id: req.body.photoID
+                    }
+                }).then(function (photo) {
+                    let updatedVotes = photo.votes + 1;
+                    db.Photo.update({
+                        votes: updatedVotes
+                    },
+                        {
+                            where: {
+                                id: photo.id
+                            }
+                        }).then(function (response) {
+                            console.log(response);
+                        });
+                });
+            }
+            else {
+                res.send("You already voted");
+            }
+        });
     });
 
     //GET Routes

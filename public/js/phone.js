@@ -151,20 +151,32 @@ $("#caption-submit").on("click", function (event) {
   .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/"));
 });
 
-$(".meme-submission").on("click",function(){
-  let photoID = $(this).attr("data-photoID");
-  let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
-  let voteData = {
-    photoID: photoID,
-    playerID: playerID
-  };
+$(Document).on("click",".meme-submission", function(){
+  if (!$(".selected")){
+    $(this).addClass("selected");
+  }
+  else {
+    $(".selected").removeClass("selected");
+    $(this).addClass("selected");
+  }
+});
 
-  $.ajax({
-    url: '/vote/add',
-    type: 'PUT',
-    data: voteData,
-    success: function (data) {
-      console.log('vote successful!\n' + data);
-    }
-  });
+$("#vote-submit").on("click",function(){
+  if ($(".selected")){
+    let photoID = parseInt($(".selected").attr("data-photoID"));
+    let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+    let voteData = {
+      photoID: photoID,
+      playerID: playerID
+    };
+  
+    $.ajax({
+      url: '/vote/add',
+      type: 'PUT',
+      data: voteData,
+      success: function (data) {
+        console.log('vote successful!\n' + data);
+      }
+    });
+  }
 });
