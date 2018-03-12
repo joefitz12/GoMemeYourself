@@ -79,6 +79,6 @@ const firebaseBot = (function() {
 
   return {
     startRound,
-    createNewGame
+    createNewGame,
   }
 })();
