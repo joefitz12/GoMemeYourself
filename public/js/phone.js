@@ -73,7 +73,8 @@ $("#photo-submit").on('click touchstart', function () {
 
         //   return xhr;
         // }
-      }).done(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
+        // }).done(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
+      });
     }
   }
 });
@@ -179,7 +180,7 @@ $("#vote-submit").on("click", function () {
         console.log('vote successful!\n' + data);
       }
     })
-      .then(function() {
+      .then(function () {
         firebaseBot.incrementVoteCount(gameID, playerID, roundNumber);
       });
   }
