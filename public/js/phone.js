@@ -18,7 +18,7 @@ $("#photo-to-upload").on("change", function () {
 });
 
 $("#photo-submit").on('click touchstart', function () {
-  if ($("#photo-to-upload").val() !== "") {
+  // if ($("#photo-to-upload").val() !== "") {
     var files = $("#photo-to-upload").get(0).files;
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
@@ -52,37 +52,37 @@ $("#photo-submit").on('click touchstart', function () {
         contentType: false,
         success: function (data) {
           console.log('upload successful!\n' + data);
+        },
+        xhr: function () {
+          // create an XMLHttpRequest
+          var xhr = new XMLHttpRequest();
+
+          // listen to the 'progress' event
+          xhr.upload.addEventListener('progress', function (evt) {
+
+            if (evt.lengthComputable) {
+              // calculate the percentage of upload completed
+              var percentComplete = evt.loaded / evt.total;
+              percentComplete = parseInt(percentComplete * 100);
+
+              // update the Bootstrap progress bar with the new percentage
+              $('.progress-bar').text(percentComplete + '%');
+              $('.progress-bar').width(percentComplete + '%');
+
+              // once the upload reaches 100%, set the progress bar text to done
+              if (percentComplete === 100) {
+                $('.progress-bar').html('Done');
+              }
+
+            }
+
+          }, false);
+
+          return xhr;
         }
-        // xhr: function () {
-        //   // create an XMLHttpRequest
-        //   var xhr = new XMLHttpRequest();
-
-        //   // listen to the 'progress' event
-        //   xhr.upload.addEventListener('progress', function (evt) {
-
-        //     if (evt.lengthComputable) {
-        //       // calculate the percentage of upload completed
-        //       var percentComplete = evt.loaded / evt.total;
-        //       percentComplete = parseInt(percentComplete * 100);
-
-        //       // update the Bootstrap progress bar with the new percentage
-        //       $('.progress-bar').text(percentComplete + '%');
-        //       $('.progress-bar').width(percentComplete + '%');
-
-        //       // once the upload reaches 100%, set the progress bar text to done
-        //       if (percentComplete === 100) {
-        //         $('.progress-bar').html('Done');
-        //       }
-
-        //     }
-
-        //   }, false);
-
-        //   return xhr;
-        // }
       }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
     }
-  }
+  // }
 });
 
 $(".fa-undo-alt").on("click", function () {
