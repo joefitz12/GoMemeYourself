@@ -100,9 +100,13 @@ const firebaseBot = (function () {
     database.ref('games/' + gameState.id).set({
       photos: [],
       startRound: false,
-      captionCount: 0
+      captionCount: 0,
+      votes: 0
     })
-      .then(addCaptionListener);
+      .then(function() {
+        addCaptionListener();
+        addVotesListener();
+      });
   }
 
   function startRound(data) {
@@ -111,7 +115,8 @@ const firebaseBot = (function () {
     database.ref('games/' + gameState.id).update({
       photos: firebaseData,
       startRound: true,
-      captionCount: 0
+      captionCount: 0,
+      votes: 0
     });
   }
 
@@ -132,6 +137,19 @@ const firebaseBot = (function () {
     });
   }
 
+  function addVotesListener() {
+    database.ref("games/" + gameState.id + "/votes").on("value", function (snap) {
+      console.log("captions: ", snap.val());
+      console.log("players: ", gameState.players.length);
+      if (snap.val() !== 0 && snap.val() === gameState.players.length) {
+        $.get("/photos/" + gameState.id + "/" + gameState.round)
+          .then(function(data) {
+            console.log(data);
+          })
+      }
+    });
+  }
+
   function incrementCaptionCount() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
@@ -142,7 +160,24 @@ const firebaseBot = (function () {
       console.log("newCaptionCount", newCaptionCount);
       database.ref('games/' + gameID).update({
         captionCount: newCaptionCount
-      }).then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/roundNumber=" + roundNumber + "/"));
+      })
+      .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/roundNumber=" + roundNumber + "/"));
+    });
+  }
+
+  function incrementVoteCount(gameID, playerID, roundNumber) {
+    // let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+    database.ref('games/' + gameID + '/votes').once("value").then(function (snapshot) {
+      console.log("snapshot value", snapshot.val());
+      let newVoteCount = snapshot.val() + 1;
+      console.log("newVoteCount", newVoteCount);
+      database.ref('games/' + gameID).update({
+        votes: newVoteCount
+      })
+      .then(function () {
+        roundNumber++;
+        location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
+      });
     });
   }
 
@@ -151,6 +186,7 @@ const firebaseBot = (function () {
     addStartRoundListener,
     createNewGame,
     incrementCaptionCount,
+    incrementVoteCount,
     phoneAddCaptionListener
   };
 })();

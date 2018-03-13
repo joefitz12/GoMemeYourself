@@ -151,7 +151,7 @@ $("#caption-submit").on("click", function (event) {
         console.log('caption successful!\n' + data);
       }
     })
-      .then(firebaseBot.incrementCaptionCount());
+      .then(firebaseBot.incrementCaptionCount);
   }
 });
 
@@ -186,9 +186,8 @@ $("#vote-submit").on("click", function () {
         console.log('vote successful!\n' + data);
       }
     })
-      .then(function () {
-        roundNumber++;
-        location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
+      .then(function() {
+        firebaseBot.incrementVoteCount(gameID, playerID, roundNumber);
       });
   }
 });
