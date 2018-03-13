@@ -18,7 +18,7 @@ $("#photo-to-upload").on("change", function () {
 });
 
 $("#photo-submit").on('click touchstart', function () {
-  // if ($("#photo-to-upload").val() !== "") {
+  if ($("#photo-to-upload").val() !== "") {
     var files = $("#photo-to-upload").get(0).files;
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
@@ -40,9 +40,9 @@ $("#photo-submit").on('click touchstart', function () {
         formData.append('roundNumber', roundNumber);
       }
 
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
+      // for (var pair of formData.entries()) {
+      //   console.log(pair[0] + ', ' + pair[1]);
+      // }
 
       $.ajax({
         url: '/api/photos/new',
@@ -82,7 +82,7 @@ $("#photo-submit").on('click touchstart', function () {
         }
       }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
     }
-  // }
+  }
 });
 
 $(".fa-undo-alt").on("click", function () {
