@@ -165,7 +165,7 @@ module.exports = function (app) {
         )
             .then(function () {
                 db.Photo.findAll({
-                    attributes: ["id", "PlayerId", "location", "caption"],
+                    attributes: ["id", "PlayerId", "location", "caption", "votes"],
                     where: {
                         GameId: req.params.game,
                         round: req.params.round

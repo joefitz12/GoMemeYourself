@@ -145,8 +145,9 @@ $("#caption-submit").on("click", function (event) {
       console.log('caption successful!\n' + data);
     }
   })
-  .then(firebaseBot.incrementCaptionCount())
-  .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/"));
+  .then(function() {
+    firebaseBot.incrementCaptionCount(captionerID);
+  });
 });
 
 $(document).on("click",".meme-submission", function(){
@@ -175,6 +176,7 @@ $("#vote-submit").on("click",function(){
       success: function (data) {
         console.log('vote successful!\n' + data);
       }
-    });
+    })
+      .then(firebaseBot.incrementVoteCount);
   }
 });
