@@ -88,10 +88,20 @@ module.exports = function (app) {
     });
 
     app.post("/players/new", function (req, res) {
-        console.log(req.body);
-        db.Player.create(req.body).then(function (response) {
-            console.log(req.body);
-            res.json(response);
+        db.Game.findOne({
+            where: {
+                id: parseInt(req.body.GameId)
+            }
+        }).then(function(gameInfo){
+            console.log("gameInfo round", gameInfo.round);
+            db.Player.create(req.body).then(function (response) {
+                console.log("playerid", response.id);
+                let joinGameInfo = {
+                    round: gameInfo.round,
+                    playerID: response.id
+                };
+                res.json(joinGameInfo);
+            });
         });
     });
 
@@ -148,6 +158,7 @@ module.exports = function (app) {
                             }
                         }).then(function (response) {
                             console.log(response);
+                            res.json(response);
                         });
                 });
             }

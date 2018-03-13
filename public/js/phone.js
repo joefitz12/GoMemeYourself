@@ -3,14 +3,14 @@ $("#camera-button").on("click", function (event) {
   $("#photo-to-upload").click();
 });
 
-$("#photo-to-upload").on("change", function(){
-  if($("#photo-to-upload").val()!==""){
+$("#photo-to-upload").on("change", function () {
+  if ($("#photo-to-upload").val() !== "") {
     $(".fa-camera-retro").hide();
     let imageFile = $("#photo-to-upload").get(0).files[0];
     let preview = $('<img>');
     preview.src = window.URL.createObjectURL(imageFile);
-    $("#rotate-div").css("background-image","url('" + preview.src + "')");
-    $("#rotate-div").css("background-size","cover");
+    $("#rotate-div").css("background-image", "url('" + preview.src + "')");
+    $("#rotate-div").css("background-size", "cover");
   }
   else {
     $(".fa-camera-retro").show();
@@ -22,7 +22,7 @@ $("#photo-submit").on('click', function () {
     var files = $("#photo-to-upload").get(0).files;
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
-    let roundNumber = 1;
+    let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
 
     if (files.length > 0) {
       // create a FormData object which will be sent as the data payload in the
@@ -80,29 +80,29 @@ $("#photo-submit").on('click', function () {
 
           return xhr;
         }
-      }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/"));
+      }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
     }
   }
 });
 
-$(".fa-undo-alt").on("click", function(){
-    function getRotationDegrees(obj) {
-      var matrix = obj.css("-webkit-transform") || obj.css("transform");
-      if(matrix !== 'none') {
-          var values = matrix.split('(')[1].split(')')[0].split(',');
-          var a = values[0];
-          var b = values[1];
-          var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
-      } else { var angle = 0; }
-      return angle;
-    }
+$(".fa-undo-alt").on("click", function () {
+  function getRotationDegrees(obj) {
+    var matrix = obj.css("-webkit-transform") || obj.css("transform");
+    if (matrix !== 'none') {
+      var values = matrix.split('(')[1].split(')')[0].split(',');
+      var a = values[0];
+      var b = values[1];
+      var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+    } else { var angle = 0; }
+    return angle;
+  }
 
-    if ($(this).hasClass("rotate-right")){
-      $("#rotate-div").css("transform","rotate(" + parseInt(getRotationDegrees($("#rotate-div")) + 90) + "deg)");
-    }
-    else {
-      $("#rotate-div").css("transform","rotate(" + parseInt(getRotationDegrees($("#rotate-div")) - 90) + "deg)");
-    }
+  if ($(this).hasClass("rotate-right")) {
+    $("#rotate-div").css("transform", "rotate(" + parseInt(getRotationDegrees($("#rotate-div")) + 90) + "deg)");
+  }
+  else {
+    $("#rotate-div").css("transform", "rotate(" + parseInt(getRotationDegrees($("#rotate-div")) - 90) + "deg)");
+  }
 });
 
 $("#room-id-submit").on("click", function (event) {
@@ -112,11 +112,14 @@ $("#room-id-submit").on("click", function (event) {
   $.ajax({
     url: '/players/new',
     type: 'POST',
-    data: {GameId: parseInt(gameID)},
+    data: { GameId: parseInt(gameID) },
     success: function (data) {
-      console.log('join successful!\n' + data.id);
-      let playerID = data.id;
-      location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/");
+      console.log('join successful!\n' + data);
+      let playerID = data.playerID;
+      console.log("round", data.round);
+      let roundNumber = data.round ? data.round : 1;
+      console.log("round", roundNumber);
+      location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
     }
   });
 });
@@ -128,6 +131,7 @@ $("#caption-submit").on("click", function (event) {
   let id = parseInt($(".photo-placeholder").attr("data-photoID"));
   let caption = $("#caption-value").val();
   let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+  let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
 
   let captionData = {
     photoID: id,
@@ -145,12 +149,12 @@ $("#caption-submit").on("click", function (event) {
       console.log('caption successful!\n' + data);
     }
   })
-  .then(firebaseBot.incrementCaptionCount())
-  .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/"));
+    .then(firebaseBot.incrementCaptionCount())
+    .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/roundNumber=" + roundNumber + "/"));
 });
 
-$(Document).on("click",".meme-submission", function(){
-  if (!$(".selected")){
+$(document).on("click", ".meme-submission", function () {
+  if (!$(".selected")) {
     $(this).addClass("selected");
   }
   else {
@@ -159,15 +163,18 @@ $(Document).on("click",".meme-submission", function(){
   }
 });
 
-$("#vote-submit").on("click",function(){
-  if ($(".selected")){
+$("#vote-submit").on("click", function () {
+  if ($(".selected")) {
+
     let photoID = parseInt($(".selected").attr("data-photoID"));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+    let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
+
     let voteData = {
       photoID: photoID,
       playerID: playerID
     };
-  
+
     $.ajax({
       url: '/vote/add',
       type: 'PUT',
@@ -175,6 +182,10 @@ $("#vote-submit").on("click",function(){
       success: function (data) {
         console.log('vote successful!\n' + data);
       }
-    });
+    })
+      .then(function () {
+        roundNumber++;
+        location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
+      });
   }
 });

@@ -62,7 +62,7 @@ const firebaseBot = (function () {
     console.log(response);
     response.forEach(function (element) {
       let memeDiv = $("<div>");
-      let photoEl = $("<img>").attr("src", "../../../" + element.location);
+      let photoEl = $("<img>").attr("src", "../../../../" + element.location);
       let captionEl = $("<p>").text(element.caption);
       memeDiv.addClass("meme-submission");
       memeDiv.attr("data-photoID",element.id);
@@ -123,7 +123,7 @@ const firebaseBot = (function () {
           .then(function (snapshot) {
             console.log("snapshot", snapshot.val());
             $(".fa-camera-retro").hide();
-            $(".photo-placeholder").css("background-image", "url('../../../" + snapshot.val()[playerID].location + "')");
+            $(".photo-placeholder").css("background-image", "url('../../../../" + snapshot.val()[playerID].location + "')");
             $(".photo-placeholder").css("background-size", "cover");
             $(".photo-placeholder").attr("data-photoID", snapshot.val()[playerID].id);
           });
