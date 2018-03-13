@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
     score: DataTypes.INTEGER,
     caption: DataTypes.STRING,
     location: DataTypes.STRING,
-    round: DataTypes.INTEGER
+    round: DataTypes.INTEGER,
+    votes: DataTypes.INTEGER
   });
 
   Photo.associate = function(models) {

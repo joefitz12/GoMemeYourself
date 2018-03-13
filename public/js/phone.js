@@ -124,7 +124,8 @@ $("#room-id-submit").on("click", function (event) {
 $("#caption-submit").on("click", function (event) {
   event.preventDefault();
 
-  let id = $(".photo-placeholder").attr("data-photoID");
+  let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+  let id = parseInt($(".photo-placeholder").attr("data-photoID"));
   let caption = $("#caption-value").val();
   let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
 
@@ -144,5 +145,36 @@ $("#caption-submit").on("click", function (event) {
       console.log('caption successful!\n' + data);
     }
   })
-  .then(firebaseBot.incrementCaptionCount());
+  .then(firebaseBot.incrementCaptionCount())
+  .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/"));
+});
+
+$(Document).on("click",".meme-submission", function(){
+  if (!$(".selected")){
+    $(this).addClass("selected");
+  }
+  else {
+    $(".selected").removeClass("selected");
+    $(this).addClass("selected");
+  }
+});
+
+$("#vote-submit").on("click",function(){
+  if ($(".selected")){
+    let photoID = parseInt($(".selected").attr("data-photoID"));
+    let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+    let voteData = {
+      photoID: photoID,
+      playerID: playerID
+    };
+  
+    $.ajax({
+      url: '/vote/add',
+      type: 'PUT',
+      data: voteData,
+      success: function (data) {
+        console.log('vote successful!\n' + data);
+      }
+    });
+  }
 });
