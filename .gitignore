@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# ignores photos
+public/photos/*.png
+public/photos/*.jpeg
+public/photos/*.jpg
+public/photos/*.gif
