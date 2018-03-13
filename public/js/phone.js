@@ -125,32 +125,34 @@ $("#room-id-submit").on("click", function (event) {
 });
 
 $("#caption-submit").on("click", function (event) {
-  event.preventDefault();
-
-  let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
   let id = parseInt($(".photo-placeholder").attr("data-photoID"));
-  let caption = $("#caption-value").val();
-  let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
-  let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
+  if (id) {
+    event.preventDefault();
 
-  let captionData = {
-    photoID: id,
-    captionText: caption,
-    captionerID: captionerID
-  };
+    let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+    let id = parseInt($(".photo-placeholder").attr("data-photoID"));
+    let caption = $("#caption-value").val();
+    let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+    let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
 
-  console.log("captionData", captionData);
+    let captionData = {
+      photoID: id,
+      captionText: caption,
+      captionerID: captionerID
+    };
 
-  $.ajax({
-    url: '/captions/new',
-    type: 'PUT',
-    data: captionData,
-    success: function (data) {
-      console.log('caption successful!\n' + data);
-    }
-  })
-    .then(firebaseBot.incrementCaptionCount())
-    .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/roundNumber=" + roundNumber + "/"));
+    console.log("captionData", captionData);
+
+    $.ajax({
+      url: '/captions/new',
+      type: 'PUT',
+      data: captionData,
+      success: function (data) {
+        console.log('caption successful!\n' + data);
+      }
+    })
+      .then(firebaseBot.incrementCaptionCount());
+  }
 });
 
 $(document).on("click", ".meme-submission", function () {
@@ -167,6 +169,7 @@ $("#vote-submit").on("click", function () {
   if ($(".selected")) {
 
     let photoID = parseInt($(".selected").attr("data-photoID"));
+    let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
 
