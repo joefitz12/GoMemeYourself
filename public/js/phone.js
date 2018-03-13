@@ -17,7 +17,7 @@ $("#photo-to-upload").on("change", function(){
   }
 });
 
-$("#photo-submit").on('click', function () {
+$("#photo-submit").on('click touchstart', function () {
   if ($("#photo-to-upload").val() !== "") {
     var files = $("#photo-to-upload").get(0).files;
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
