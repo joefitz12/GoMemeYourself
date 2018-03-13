@@ -45,10 +45,7 @@ $("#photo-submit").on('click touchstart', function () {
         type: 'POST',
         data: formData,
         processData: false,
-        contentType: false,
-        success: function (data) {
-          console.log('upload successful!\n' + data);
-        }
+        contentType: false
         // xhr: function () {
         //   // create an XMLHttpRequest
         //   var xhr = new XMLHttpRequest();
@@ -76,7 +73,7 @@ $("#photo-submit").on('click touchstart', function () {
 
         //   return xhr;
         // }
-      }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
+      }).done(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
     }
   }
 });
