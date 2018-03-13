@@ -65,15 +65,14 @@ $("#photo-submit").on('click', function () {
               // once the upload reaches 100%, set the progress bar text to done
               if (percentComplete === 100) {
                 $('.progress-bar').html('Done');
+                location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
               }
 
             }
 
           }, false);
-
           return xhr;
         }
-        // }).done(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
       });
     }
   }
