@@ -94,5 +94,6 @@ button {
     float: right;
 }
 
-
-
+.selected {
+    border: 5px solid #D1FAFF;
+}

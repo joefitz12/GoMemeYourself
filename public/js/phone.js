@@ -149,7 +149,7 @@ $("#caption-submit").on("click", function (event) {
   .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/"));
 });
 
-$(Document).on("click",".meme-submission", function(){
+$(document).on("click",".meme-submission", function(){
   if (!$(".selected")){
     $(this).addClass("selected");
   }

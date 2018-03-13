@@ -147,7 +147,7 @@ module.exports = function (app) {
                                 id: photo.id
                             }
                         }).then(function (response) {
-                            console.log(response);
+                            res.json(response);
                         });
                 });
             }
