@@ -142,8 +142,7 @@ const firebaseBot = (function () {
       console.log("newCaptionCount", newCaptionCount);
       database.ref('games/' + gameID).update({
         captionCount: newCaptionCount
-      });
-      location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/roundNumber=" + roundNumber + "/");
+      }).then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/roundNumber=" + roundNumber + "/"));
     });
   }
 
