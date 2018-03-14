@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     caption: DataTypes.STRING,
     location: DataTypes.STRING,
     round: DataTypes.INTEGER,
-    votes: DataTypes.INTEGER
+    votes: DataTypes.INTEGER,
+    rotationAngle: DataTypes.INTEGER
   });
 
   Photo.associate = function(models) {

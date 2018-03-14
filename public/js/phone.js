@@ -17,12 +17,25 @@ $("#photo-to-upload").on("change", function () {
   }
 });
 
-$("#photo-submit").on('click touchstart', function () {
+$("#photo-submit").on('click', function () {
   if ($("#photo-to-upload").val() !== "") {
     var files = $("#photo-to-upload").get(0).files;
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
+    
+    function getRotationDegrees(obj) {
+      var matrix = obj.css("-webkit-transform") || obj.css("transform");
+      if (matrix !== 'none') {
+        var values = matrix.split('(')[1].split(')')[0].split(',');
+        var a = values[0];
+        var b = values[1];
+        var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+      } else { var angle = 0; }
+      return angle;
+    }
+    
+    let rotationAngle = $("#rotate-div").css("transform") === "none" ? 0 : parseInt(getRotationDegrees($("#rotate-div")));
 
     if (files.length > 0) {
       // create a FormData object which will be sent as the data payload in the
@@ -38,10 +51,7 @@ $("#photo-submit").on('click touchstart', function () {
         formData.append('gameID', gameID);
         formData.append('playerID', playerID);
         formData.append('roundNumber', roundNumber);
-      }
-
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
+        formData.append('rotationAngle', rotationAngle);
       }
 
       $.ajax({
@@ -50,9 +60,6 @@ $("#photo-submit").on('click touchstart', function () {
         data: formData,
         processData: false,
         contentType: false,
-        success: function (data) {
-          console.log('upload successful!\n' + data);
-        },
         xhr: function () {
           // create an XMLHttpRequest
           var xhr = new XMLHttpRequest();
@@ -72,15 +79,15 @@ $("#photo-submit").on('click touchstart', function () {
               // once the upload reaches 100%, set the progress bar text to done
               if (percentComplete === 100) {
                 $('.progress-bar').html('Done');
+                location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
               }
 
             }
 
           }, false);
-
           return xhr;
         }
-      }).then(location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/"));
+      });
     }
   }
 });
@@ -186,7 +193,7 @@ $("#vote-submit").on("click", function () {
         console.log('vote successful!\n' + data);
       }
     })
-      .then(function() {
+      .then(function () {
         firebaseBot.incrementVoteCount(gameID, playerID, roundNumber);
       });
   }
