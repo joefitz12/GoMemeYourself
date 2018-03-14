@@ -25,14 +25,14 @@ function setGameState(data) {
 function updateGameState(oldState, newProp) {
   return {
     ...oldState,
-    players: newProp
+    ...newProp
   }
 }
 
 function createPlayersArray(data) {
   let newArray = [];
   data.forEach(dataObj => newArray.push(dataObj.PlayerId));
-  return newArray;
+  return {players: newArray};
 }
 
 function incrementRound(currentRound) {
@@ -48,4 +48,31 @@ function renderNewGame(data) {
 function getPhotos() {
   $.get("/photos/" + gameState.id + "/" + gameState.round)
     .then(firebaseBot.startRound);
+}
+
+function calculateScores(data) {
+  let scores = gameState.scores || {};
+  data.forEach(function(element) {
+    calculateCaptionScore(element, scores);
+    calculatePicScore(element, scores)
+  });
+  return {scores: scores};
+}
+
+function calculatePicScore(photoObj, scoreObj) {
+  if (!photoObj.votes) return;
+  if (scoreObj[photoObj.PlayerId]) {
+    scoreObj[photoObj.PlayerId] += photoObj.votes * 100;
+  } else {
+    scoreObj[photoObj.PlayerId] = photoObj.votes * 100;
+  }
+}
+
+function calculateCaptionScore(photoObj, scoreObj) {
+  if (!photoObj.votes) return;
+  if (scoreObj[photoObj.captionerId]) {
+    scoreObj[photoObj.captionerId] += photoObj.votes * 150;
+  } else {
+    scoreObj[photoObj.captionerId] = photoObj.votes * 150;
+  }
 }

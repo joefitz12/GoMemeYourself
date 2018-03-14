@@ -47,12 +47,8 @@ module.exports = function (app) {
                 rotationAngle = parseInt(value);
             }
 
-        });
 
 
-        // log any errors that occur
-        form.on('error', function (err) {
-            console.log('An error has occured: \n' + err);
         });
 
         form.on('end', function () {
@@ -67,6 +63,13 @@ module.exports = function (app) {
             }).then(() => console.log("end callback"));
             res.end('success');
         });
+
+
+        // log any errors that occur
+        form.on('error', function (err) {
+            console.log('An error has occured: \n' + err);
+        });
+
 
         // parse the incoming request containing the form data
         form.parse(req);
@@ -99,7 +102,6 @@ module.exports = function (app) {
 
     //PUT Routes
     app.put("/captions/new", function (req, res) {
-
 
         db.Photo.update({
             caption: req.body.captionText,
@@ -158,6 +160,17 @@ module.exports = function (app) {
         });
     });
 
+    app.put("/players/scores", function (req, res) {
+        console.log(req.body);
+        for (let player in req.body) {
+            db.Player.update(
+                { score: parseInt(req.body[player]) },
+                { where: { id: player } }
+            );
+        }
+        res.end();
+    });
+
     //GET Routes
     app.get("/photos/:game/:round", function (req, res) {
         db.Game.update(
@@ -166,7 +179,7 @@ module.exports = function (app) {
         )
             .then(function () {
                 db.Photo.findAll({
-                    attributes: ["id", "PlayerId", "location", "caption", "votes"],
+                    attributes: ["id", "PlayerId", "location", "caption", "votes", "captionerId"],
                     where: {
                         GameId: req.params.game,
                         round: req.params.round
