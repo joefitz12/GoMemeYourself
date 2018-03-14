@@ -144,8 +144,14 @@ const firebaseBot = (function () {
       if (snap.val() !== 0 && snap.val() === gameState.players.length) {
         $.get("/photos/" + gameState.id + "/" + gameState.round)
           .then(function(data) {
-            console.log(data);
-          })
+            gameState = updateGameState(gameState, calculateScores(data));
+            //update db
+            $.ajax({
+              url: "/players/scores",
+              type: "PUT",
+              data: gameState.scores,
+            });
+          });
       }
     });
   }
