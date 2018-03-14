@@ -51,7 +51,7 @@ function getPhotos() {
 }
 
 function calculateScores(data) {
-  let scores = {};
+  let scores = gameState.scores || {};
   data.forEach(function(element) {
     calculateCaptionScore(element, scores);
     calculatePicScore(element, scores)

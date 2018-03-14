@@ -168,7 +168,19 @@ module.exports = function (app) {
     });
 
     app.put("/players/scores", function(req, res) {
-      
+      console.log(req.body);
+      for (let player in req.body) {
+        db.Player.findById(player)
+          .then(function(data) {
+            let newScore = parseInt(data.score) + parseInt(req.body[player]);
+            // console.log(player);
+            db.Player.update(
+              { score: newScore },
+              { where: { id: player } }
+            )
+          });
+      }
+      res.end();
     })
 
     //GET Routes

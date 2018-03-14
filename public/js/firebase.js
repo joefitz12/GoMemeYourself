@@ -146,7 +146,12 @@ const firebaseBot = (function () {
           .then(function(data) {
             gameState = updateGameState(gameState, calculateScores(data));
             //update db
-          })
+            $.ajax({
+              url: "/players/scores",
+              type: "PUT",
+              data: gameState.scores,
+            });
+          });
       }
     });
   }
