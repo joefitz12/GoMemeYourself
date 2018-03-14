@@ -167,6 +167,10 @@ module.exports = function (app) {
         });
     });
 
+    app.put("/players/scores", function(req, res) {
+      
+    })
+
     //GET Routes
     app.get("/photos/:game/:round", function (req, res) {
         db.Game.update(

@@ -144,37 +144,11 @@ const firebaseBot = (function () {
       if (snap.val() !== 0 && snap.val() === gameState.players.length) {
         $.get("/photos/" + gameState.id + "/" + gameState.round)
           .then(function(data) {
-            console.log(data);
+            gameState = updateGameState(gameState, calculateScores(data));
+            //update db
           })
       }
     });
-  }
-
-  function calculateScores(data) {
-    let scores = {};
-    data.forEach(function(element) {
-      calculateCaptionScore(element, scores);
-      calculatePicScore(element, scores)
-    });
-    return scores;
-  }
-
-  function calculatePicScore(photoObj, scoreObj) {
-    if (!photoObj.votes) return;
-    if (scoreObj[photoObj.PlayerId]) {
-      scoreObj[photoObj.PlayerId] += photoObj.votes * 100;
-    } else {
-      scoreObj[photoObj.PlayerId] = photoObj.votes * 100;
-    }
-  }
-
-  function calculateCaptionScore(photoObj, scoreObj) {
-    if (!photoObj.votes) return;
-    if (scoreObj[photoObj.captionerId]) {
-      scoreObj[photoObj.captionerId] += photoObj.votes * 150;
-    } else {
-      scoreObj[photoObj.captionerId] = photoObj.votes * 150;
-    }
   }
 
   function incrementCaptionCount() {

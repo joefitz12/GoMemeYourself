@@ -25,14 +25,14 @@ function setGameState(data) {
 function updateGameState(oldState, newProp) {
   return {
     ...oldState,
-    players: newProp
+    ...newProp
   }
 }
 
 function createPlayersArray(data) {
   let newArray = [];
   data.forEach(dataObj => newArray.push(dataObj.PlayerId));
-  return newArray;
+  return {players: newArray};
 }
 
 function incrementRound(currentRound) {
@@ -56,7 +56,7 @@ function calculateScores(data) {
     calculateCaptionScore(element, scores);
     calculatePicScore(element, scores)
   });
-  return scores;
+  return {scores: scores};
 }
 
 function calculatePicScore(photoObj, scoreObj) {

@@ -37,15 +37,15 @@ let photosData = [{
 
 describe("createPlayersArray", function() {
   it("returns an array with all PlayerIds for the round", function() {
-    chai.expect(createPlayersArray(photosData)).to.deep.equal([195, 194]);
+    chai.expect(createPlayersArray(photosData)).to.deep.equal({players: [195, 194]});
   });
 
   it("returns an empty array if no data", function() {
-    chai.expect(createPlayersArray([])).to.deep.equal([]);
+    chai.expect(createPlayersArray([])).to.deep.equal({players: []});
   });
 });
 
-let newProp = [2342, 5232, 12315, 6342];
+let newProp = {players: [2342, 5232, 12315, 6342]};
 
 describe("resetGameState", function() {
   it("returns an object with all properties of oldState and adds newProp", function() {
@@ -55,6 +55,6 @@ describe("resetGameState", function() {
 
 describe("calculateScores", function() {
   it("creates an object of scores", function() {
-    chai.expect(calculateScores(photosData)).to.deep.equal({195: 200, 194: 300});
+    chai.expect(calculateScores(photosData)).to.deep.equal({scores: {195: 200, 194: 300}});
   });
 });
