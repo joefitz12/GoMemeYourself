@@ -23,6 +23,19 @@ $("#photo-submit").on('click', function () {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
+    
+    function getRotationDegrees(obj) {
+      var matrix = obj.css("-webkit-transform") || obj.css("transform");
+      if (matrix !== 'none') {
+        var values = matrix.split('(')[1].split(')')[0].split(',');
+        var a = values[0];
+        var b = values[1];
+        var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+      } else { var angle = 0; }
+      return angle;
+    }
+    
+    let rotationAngle = $("#rotate-div").css("transform") === none ? 0 : $("#rotate-div").css("transform", "rotate(" + parseInt(getRotationDegrees($("#rotate-div"))) + "deg)");
 
     if (files.length > 0) {
       // create a FormData object which will be sent as the data payload in the
@@ -38,6 +51,7 @@ $("#photo-submit").on('click', function () {
         formData.append('gameID', gameID);
         formData.append('playerID', playerID);
         formData.append('roundNumber', roundNumber);
+        formData.append('rotationAngle', rotationAngle);
       }
 
       $.ajax({

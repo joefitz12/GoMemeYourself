@@ -19,10 +19,7 @@ module.exports = function (app) {
         let gameID = 0;
         let playerID = 0;
         let roundNumber = 0;
-
-        // for (var pair of form.entries()) {
-        //     console.log(pair[0] + ', ' + pair[1]);
-        // }
+        let rotationAngle = 0;
 
         // store all uploads in the /uploads directory
         form.uploadDir = path.join(__dirname, '../public/photos');
@@ -31,10 +28,7 @@ module.exports = function (app) {
         // every time a file has been uploaded successfully,
         // rename it to it's orignal name
         form.on('file', function (field, file) {
-            console.log("field:", field);
-            console.log("file.name:", file.name);
             fileName = file.name;
-            console.log("fileName", fileName);
             dbLocation = "photos/" + fileName;
             fs.rename(file.path, path.join(form.uploadDir, file.name));
         });
@@ -49,15 +43,11 @@ module.exports = function (app) {
             else if (name === "roundNumber") {
                 roundNumber = parseInt(value);
             }
-
-
-
-            console.log("roundNumber", roundNumber);
-            console.log("dbLocation", dbLocation);
+            else if (name === "rotationAngle") {
+                rotationAngle = parseInt(value);
+            }
 
         });
-
-        console.log("fileName", fileName);
 
 
         // log any errors that occur
@@ -73,6 +63,7 @@ module.exports = function (app) {
                 PlayerId: playerID,
                 round: roundNumber,
                 location: dbLocation,
+                rotationAngle: rotationAngle
             }).then(() => console.log("end callback"));
             res.end('success');
         });
@@ -92,7 +83,7 @@ module.exports = function (app) {
             where: {
                 id: parseInt(req.body.GameId)
             }
-        }).then(function(gameInfo){
+        }).then(function (gameInfo) {
             console.log("gameInfo round", gameInfo.round);
             db.Player.create(req.body).then(function (response) {
                 console.log("playerid", response.id);
