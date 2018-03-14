@@ -49,3 +49,30 @@ function getPhotos() {
   $.get("/photos/" + gameState.id + "/" + gameState.round)
     .then(firebaseBot.startRound);
 }
+
+function calculateScores(data) {
+  let scores = {};
+  data.forEach(function(element) {
+    calculateCaptionScore(element, scores);
+    calculatePicScore(element, scores)
+  });
+  return scores;
+}
+
+function calculatePicScore(photoObj, scoreObj) {
+  if (!photoObj.votes) return;
+  if (scoreObj[photoObj.PlayerId]) {
+    scoreObj[photoObj.PlayerId] += photoObj.votes * 100;
+  } else {
+    scoreObj[photoObj.PlayerId] = photoObj.votes * 100;
+  }
+}
+
+function calculateCaptionScore(photoObj, scoreObj) {
+  if (!photoObj.votes) return;
+  if (scoreObj[photoObj.captionerId]) {
+    scoreObj[photoObj.captionerId] += photoObj.votes * 150;
+  } else {
+    scoreObj[photoObj.captionerId] = photoObj.votes * 150;
+  }
+}

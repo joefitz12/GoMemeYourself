@@ -150,6 +150,33 @@ const firebaseBot = (function () {
     });
   }
 
+  function calculateScores(data) {
+    let scores = {};
+    data.forEach(function(element) {
+      calculateCaptionScore(element, scores);
+      calculatePicScore(element, scores)
+    });
+    return scores;
+  }
+
+  function calculatePicScore(photoObj, scoreObj) {
+    if (!photoObj.votes) return;
+    if (scoreObj[photoObj.PlayerId]) {
+      scoreObj[photoObj.PlayerId] += photoObj.votes * 100;
+    } else {
+      scoreObj[photoObj.PlayerId] = photoObj.votes * 100;
+    }
+  }
+
+  function calculateCaptionScore(photoObj, scoreObj) {
+    if (!photoObj.votes) return;
+    if (scoreObj[photoObj.captionerId]) {
+      scoreObj[photoObj.captionerId] += photoObj.votes * 150;
+    } else {
+      scoreObj[photoObj.captionerId] = photoObj.votes * 150;
+    }
+  }
+
   function incrementCaptionCount() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));

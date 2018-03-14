@@ -20,26 +20,24 @@ describe("setGameState", function() {
 });
 
 let photosData = [{
-  id: 1,
-  location: "photos/something.jpg", 
-  PlayerId: 2
+  id: 183, 
+  PlayerId: 195, 
+  location: "photos/biddy.png", 
+  captionerId: 194,
+  caption: "rolly polly?", 
+  votes: 2
 }, {
-  id: 2,
-  location: "photos/duck.jpg", 
-  PlayerId: 3
-}, {
-  id: 4,
-  location: "photos/duck.jpg", 
-  PlayerId: 5
-}, {
-  id: 5,
-  location: "photos/duck.jpg", 
-  PlayerId: 4
+  PlayerId: 194,
+  caption: "faux panda",
+  id: 182,
+  captionerId: 195,
+  location: "photos/we-rate-dogs.jpg",
+  votes: 0
 }];
 
 describe("createPlayersArray", function() {
   it("returns an array with all PlayerIds for the round", function() {
-    chai.expect(createPlayersArray(photosData)).to.deep.equal([2, 3, 5, 4]);
+    chai.expect(createPlayersArray(photosData)).to.deep.equal([195, 194]);
   });
 
   it("returns an empty array if no data", function() {
@@ -52,5 +50,11 @@ let newProp = [2342, 5232, 12315, 6342];
 describe("resetGameState", function() {
   it("returns an object with all properties of oldState and adds newProp", function() {
     chai.expect(updateGameState(data, newProp)).to.deep.equal({id: 4, round: 5, players: [2342, 5232, 12315, 6342]});
+  });
+});
+
+describe("calculateScores", function() {
+  it("creates an object of scores", function() {
+    chai.expect(calculateScores(photosData)).to.deep.equal({195: 200, 194: 300});
   });
 });
