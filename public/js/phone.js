@@ -35,7 +35,7 @@ $("#photo-submit").on('click', function () {
       return angle;
     }
     
-    let rotationAngle = $("#rotate-div").css("transform") === none ? 0 : $("#rotate-div").css("transform", "rotate(" + parseInt(getRotationDegrees($("#rotate-div"))) + "deg)");
+    let rotationAngle = $("#rotate-div").css("transform") === "none" ? 0 : $("#rotate-div").css("transform", "rotate(" + parseInt(getRotationDegrees($("#rotate-div"))) + "deg)");
 
     if (files.length > 0) {
       // create a FormData object which will be sent as the data payload in the
