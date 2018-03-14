@@ -44,6 +44,7 @@ module.exports = function (app) {
                 roundNumber = parseInt(value);
             }
             else if (name === "rotationAngle") {
+                console.log("rotationAngle", value);
                 rotationAngle = parseInt(value);
             }
 
@@ -58,6 +59,7 @@ module.exports = function (app) {
         form.on('end', function () {
             console.log("end roundNumber", roundNumber);
             console.log("end dbLocatoion", dbLocation);
+            console.log("end rotationAngle", rotationAngle);
             db.Photo.create({
                 GameId: gameID,
                 PlayerId: playerID,
