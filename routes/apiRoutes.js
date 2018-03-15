@@ -101,6 +101,8 @@ module.exports = function (app) {
 
 
     //PUT Routes
+
+    //Add a caption to the captions table
     app.put("/captions/new", function (req, res) {
 
         db.Photo.update({
@@ -117,6 +119,7 @@ module.exports = function (app) {
             });
     });
 
+    //Add a vote to the photos table
     app.put("/vote/add", function (req, res) {
 
         db.Player.findOne({
@@ -160,6 +163,7 @@ module.exports = function (app) {
         });
     });
 
+    //Add a score to the players table
     app.put("/players/scores", function (req, res) {
         console.log(req.body);
         for (let player in req.body) {
@@ -168,6 +172,16 @@ module.exports = function (app) {
                 { where: { id: player } }
             );
         }
+        res.end();
+    });
+
+    //Update the voted boolean on the players table
+    app.put("/voted/update", function (req, res) {
+        console.log(req.body);
+        db.Player.update(
+            { voted: false },
+            { where: { id: req.body.playerID } }
+        );
         res.end();
     });
 

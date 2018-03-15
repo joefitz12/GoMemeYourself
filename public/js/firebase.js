@@ -103,7 +103,7 @@ const firebaseBot = (function () {
       captionCount: 0,
       votes: 0
     })
-      .then(function() {
+      .then(function () {
         addCaptionListener();
         addVotesListener();
       });
@@ -132,6 +132,19 @@ const firebaseBot = (function () {
             $(".photo-placeholder").css("background-image", "url('../../../../" + snapshot.val()[playerID].location + "')");
             $(".photo-placeholder").css("background-size", "cover");
             $(".photo-placeholder").attr("data-photoID", snapshot.val()[playerID].id);
+          })
+          .then(function () {
+            data = {
+              playerID: playerID
+            };
+            $.ajax({
+              url: '/voted/update',
+              type: 'PUT',
+              data: data,
+              success: function (data) {
+                console.log('updated voted field!\n' + data);
+              }
+            });
           });
       }
     });
@@ -143,7 +156,7 @@ const firebaseBot = (function () {
       console.log("players: ", gameState.players.length);
       if (snap.val() !== 0 && snap.val() === gameState.players.length) {
         $.get("/photos/" + gameState.id + "/" + gameState.round)
-          .then(function(data) {
+          .then(function (data) {
             gameState = updateGameState(gameState, calculateScores(data));
             //update db
             $.ajax({
@@ -167,7 +180,7 @@ const firebaseBot = (function () {
       database.ref('games/' + gameID).update({
         captionCount: newCaptionCount
       })
-      .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/roundNumber=" + roundNumber + "/"));
+        .then(location.replace("/phone-vote/gameID=" + gameID + "/playerID=" + captionerID + "/roundNumber=" + roundNumber + "/"));
     });
   }
 
@@ -180,10 +193,10 @@ const firebaseBot = (function () {
       database.ref('games/' + gameID).update({
         votes: newVoteCount
       })
-      .then(function () {
-        roundNumber++;
-        location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
-      });
+        .then(function () {
+          roundNumber++;
+          location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
+        });
     });
   }
 
