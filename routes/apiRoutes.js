@@ -205,4 +205,18 @@ module.exports = function (app) {
                     });
             });
     });
+
+    app.get("/angle/get/:photoID", function (req, res) {
+        console.log(req.params.photoID);
+        db.Photo.findOne({
+            attributes: ["rotationAngle"],
+            where: {
+                id: req.params.photoID
+            }
+        })
+            .then(function (data) {
+                res.json(data);
+            });
+    });
+
 };

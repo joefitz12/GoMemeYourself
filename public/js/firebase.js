@@ -129,18 +129,28 @@ const firebaseBot = (function () {
           .then(function (snapshot) {
             console.log("snapshot", snapshot.val());
             $(".fa-camera-retro").hide();
-            $(".photo-placeholder").css("background-image", "url('../../../../" + snapshot.val()[playerID].location + "')");
-            $(".photo-placeholder").css("background-size", "cover");
-            $(".photo-placeholder").attr("data-photoID", snapshot.val()[playerID].id);
+            $("#rotate-div").css("background-image", "url('../../../../" + snapshot.val()[playerID].location + "')");
+            $("#rotate-div").css("background-size", "cover");
+            let photoID = snapshot.val()[playerID].id;
+            console.log("photoID", photoID);
+            $.ajax({
+              url: '/angle/get/' + photoID,
+              type: 'GET',
+              success: function (data) {
+                console.log('rotation data!\n' + data.rotationAngle);
+                $("#rotate-div").css("transform","rotate(" + parseInt(data.rotationAngle) + "deg)");
+              }
+            });
+            $("#rotate-div").attr("data-photoID", snapshot.val()[playerID].id);
           })
           .then(function () {
-            data = {
+            playerData = {
               playerID: playerID
             };
             $.ajax({
               url: '/voted/update',
               type: 'PUT',
-              data: data,
+              data: playerData,
               success: function (data) {
                 console.log('updated voted field!\n' + data);
               }
