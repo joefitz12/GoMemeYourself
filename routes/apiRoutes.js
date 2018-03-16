@@ -193,7 +193,7 @@ module.exports = function (app) {
         )
             .then(function () {
                 db.Photo.findAll({
-                    attributes: ["id", "PlayerId", "location", "caption", "votes", "captionerId"],
+                    attributes: ["id", "PlayerId", "location", "caption", "votes", "captionerId", "rotationAngle"],
                     where: {
                         GameId: req.params.game,
                         round: req.params.round
