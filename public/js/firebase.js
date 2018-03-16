@@ -62,12 +62,24 @@ const firebaseBot = (function () {
     console.log(response);
     response.forEach(function (element) {
       let memeDiv = $("<div>");
-      let photoEl = $("<img>").attr("src", "../../../../" + element.location);
-      let captionEl = $("<p>").text(element.caption);
-      memeDiv.addClass("meme-submission");
+      let rotateDiv = $("<div>")
+      rotateDiv.css("background-image", "url('../../../../" + element.location + "')");
+      rotateDiv.css("background-size", "cover");
+      $.ajax({
+        url: '/angle/get/' + element.id,
+        type: 'GET',
+        success: function (data) {
+          console.log('rotation data!\n' + data.rotationAngle);
+          rotateDiv.css("transform","rotate(" + parseInt(data.rotationAngle) + "deg)");
+        }
+      });
+      rotateDiv.addClass("rotate-div");
+      let caption = $("<p>").text(element.caption);
+      caption.addClass("phone-caption");
+      memeDiv.addClass("meme-submission photo-placeholder");
       memeDiv.attr("data-photoID", element.id);
-      memeDiv.append(photoEl);
-      memeDiv.append(captionEl);
+      memeDiv.append(caption);
+      memeDiv.append(rotateDiv);
       $("#vote-display").append(memeDiv);
     });
   }
