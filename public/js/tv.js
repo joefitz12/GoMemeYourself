@@ -17,7 +17,7 @@ function createNewGame(){
 function setGameState(data) {
   return {
     id: data.id,
-    round: incrementRound(data.round),
+    round: 0,
     players: []
   }
 }
@@ -46,6 +46,8 @@ function renderNewGame(data) {
 }
 
 function getPhotos() {
+  gameState = updateGameState(gameState, {round: incrementRound(gameState.round)})
+  console.log("getPhoto", gameState);
   $.get("/photos/" + gameState.id + "/" + gameState.round)
     .then(firebaseBot.startRound);
 }

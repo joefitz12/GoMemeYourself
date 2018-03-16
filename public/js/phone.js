@@ -124,7 +124,7 @@ $("#room-id-submit").on("click", function (event) {
       console.log('join successful!\n' + data);
       let playerID = data.playerID;
       console.log("round", data.round);
-      let roundNumber = data.round ? data.round : 1;
+      let roundNumber = data.round + 1;
       console.log("round", roundNumber);
       location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
     }
@@ -132,12 +132,11 @@ $("#room-id-submit").on("click", function (event) {
 });
 
 $("#caption-submit").on("click", function (event) {
-  let id = parseInt($(".photo-placeholder").attr("data-photoID"));
+  let id = parseInt($("#rotate-div").attr("data-photoID"));
   if (id) {
     event.preventDefault();
 
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
-    let id = parseInt($(".photo-placeholder").attr("data-photoID"));
     let caption = $("#caption-value").val();
     let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
