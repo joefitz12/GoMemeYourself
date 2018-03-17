@@ -12,6 +12,26 @@ h1 {
   font-size: 5rem;
 }
 
+#right-header {
+  position: relative;
+}
+
+.game-info {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 50px;
+  font-size: 2rem;
+  display: inline-block;
+}
+
+#game-control__display {
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+  margin-top: 20px;
+}
+
 .meme-container {
   position: relative;
   margin: 10px;

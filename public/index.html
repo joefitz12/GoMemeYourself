@@ -18,20 +18,18 @@
 
   <div class="container-fluid">
     <div class="row header">
-      <div class="col-md-9">
+      <div class="col-md-8">
         <h1>Go Meme Yourself</h1>
       </div>
-      <div class="col-md-3">
+      <div id="right-header" class="col-md-4">
         <button id="start-game">Start Game</button>
       </div>
     </div>
   </div>
   <div class="container-fluid">
-    <div id="game-info__display" class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <p>Go to go-meme-yourself.herokuapp.com/join to join this game</p>
-        <p id="game-id__display"></p>
-        <p id="game-round__display"></p>
+    <div id="game-control__display" class="row">
+      <div class="col-md-6 offset-md-3">
+        <p id="game-control__url">Go to go-meme-yourself.herokuapp.com/join to join this game</p>
         <p>Click START ROUND once everyone has submitted a photo</p>
         <button id="start-round" type="button" class="btn-primary">Start Round</button>
       </div>

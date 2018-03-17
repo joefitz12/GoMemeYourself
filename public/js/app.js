@@ -1,4 +1,4 @@
-$("#game-info__display").hide();
+$("#game-control__display").hide();
 
 $(document).ready(function() {
   $("#start-game").on("click", createNewGame);
