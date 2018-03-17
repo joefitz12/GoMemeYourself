@@ -38,31 +38,23 @@ const firebaseBot = (function () {
     console.log("renderPhotoCaptions response", response);
     response.forEach(function (element) {
       let memeDiv = $("<div>");
-      // let photoEl = $("<div>")
-      memeDiv.css("background-image", "url('../../../../" + element.location + "')");
-      memeDiv.css("background-size", "cover");
-      // $.ajax({
-      //   url: '/angle/get/' + element.id,
-      //   type: 'GET',
-      //   success: function (data) {
-      //     console.log('rotation data!\n' + data.rotationAngle);
-      //     rotateDiv.css("transform","rotate(" + parseInt(data.rotationAngle) + "deg)");
-      //   }
-      // });
-      // rotateDiv.addClass("rotate-div");
+      let photoDiv = $("<div>")
+      photoDiv.css("background-image", "url('../../../../" + element.location + "')");
+      photoDiv.css("background-size", "cover");
+      photoDiv.addClass("meme-photo");
+      $.ajax({
+        url: '/angle/get/' + element.id,
+        type: 'GET',
+        success: function (data) {
+          console.log('rotation data!\n' + data.rotationAngle);
+          photoDiv.css("transform","rotate(" + parseInt(data.rotationAngle) + "deg)");
+        }
+      });
       let caption = $("<p>").text(element.caption);
       caption.addClass("meme-caption");
-      memeDiv.addClass("meme-container col-md-4");
-      // memeDiv.attr("data-photoID", element.id);
+      memeDiv.addClass("meme-container col-md-3");
+      memeDiv.append(photoDiv);
       memeDiv.append(caption);
-      // memeDiv.append(photoEl);
-      // $("#vote-display").append(memeDiv);
-      // let photoDiv = $("<div class='photo-display__card col-md-4'>");
-      // photoDiv.css("background-image", "url('../../../../" + element.location + "')")
-      // let photoEl = $("<img>").attr("src", element.location);
-      // let captionEl = $("<p>").text(element.caption);
-      // photoDiv.append(photoEl);
-      // photoDiv.append(captionEl);
       $("#photo-display").append(memeDiv);
     });
   }
