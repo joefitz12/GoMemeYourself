@@ -23,7 +23,7 @@ $("#photo-submit").on('click', function () {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
-    
+
     function getRotationDegrees(obj) {
       var matrix = obj.css("-webkit-transform") || obj.css("transform");
       if (matrix !== 'none') {
@@ -34,7 +34,7 @@ $("#photo-submit").on('click', function () {
       } else { var angle = 0; }
       return angle;
     }
-    
+
     let rotationAngle = $("#rotate-div").css("transform") === "none" ? 0 : parseInt(getRotationDegrees($("#rotate-div")));
 
     if (files.length > 0) {
@@ -114,21 +114,23 @@ $(".fa-undo-alt").on("click", function () {
 
 $("#room-id-submit").on("click", function (event) {
   event.preventDefault();
-
-  let gameID = $("#room-id").val();
-  $.ajax({
-    url: '/players/new',
-    type: 'POST',
-    data: { GameId: parseInt(gameID) },
-    success: function (data) {
-      console.log('join successful!\n' + data);
-      let playerID = data.playerID;
-      console.log("round", data.round);
-      let roundNumber = data.round + 1;
-      console.log("round", roundNumber);
-      location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
-    }
-  });
+  let gameID = parseInt($("#room-id").val());
+  let nickname = $("#nickname-value").val();
+  if (gameID && nickname) {
+    $.ajax({
+      url: '/players/new',
+      type: 'POST',
+      data: { GameId: gameID, nickname: nickname },
+      success: function (data) {
+        console.log('join successful!\n' + data);
+        let playerID = data.playerID;
+        console.log("round", data.round);
+        let roundNumber = data.round + 1;
+        console.log("round", roundNumber);
+        location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
+      }
+    });
+  }
 });
 
 $("#caption-submit").on("click", function (event) {
