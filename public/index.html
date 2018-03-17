@@ -6,6 +6,7 @@
   <title>Go Meme Yourself</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
     crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/tv.css" />
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
@@ -24,18 +25,25 @@
         <button id="start-game">Start Game</button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3" id="game-info__display">
+    <div id="game-info__display" class="row">
+      <div class="col-md-6 col-md-offset-3">
         <p>Go to go-meme-yourself.herokuapp.com/join to join this game</p>
         <p id="game-id__display"></p>
+        <p id="game-round__display"></p>
+        <p>Click START ROUND once everyone has submitted a photo</p>
         <button id="start-round" type="button" class="btn-primary">Start Round</button>
       </div>
     </div>
-  </div>
-  <div id="photo-display" class="row">
-  </div>
-  <div class="container">
-
+    <div class="row">
+      <div id="photo-display" class="row">
+      </div>
+    </div>
+    <div class="row">
+      <div id="score-display" class="row">
+      </div>
+    </div>
+    
+    </div>
   </div>
 
   <script src="js/firebase.js"></script>

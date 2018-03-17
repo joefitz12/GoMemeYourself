@@ -35,12 +35,35 @@ const firebaseBot = (function () {
   }
 
   function renderPhotoCaptions(response) {
-    console.log(response);
+    console.log("renderPhotoCaptions response", response);
     response.forEach(function (element) {
-      let photoEl = $("<img>").attr("src", element.location);
-      let captionEl = $("<p>").text(element.caption);
-      $("#photo-display").append(photoEl);
-      $("#photo-display").append(captionEl);
+      let memeDiv = $("<div>");
+      let photoEl = $("<img>")
+      photoEl.attr("src", element.location);
+      // photoDiv.css("background-size", "cover");
+      // $.ajax({
+      //   url: '/angle/get/' + element.id,
+      //   type: 'GET',
+      //   success: function (data) {
+      //     console.log('rotation data!\n' + data.rotationAngle);
+      //     rotateDiv.css("transform","rotate(" + parseInt(data.rotationAngle) + "deg)");
+      //   }
+      // });
+      // rotateDiv.addClass("rotate-div");
+      let caption = $("<p>").text(element.caption);
+      caption.addClass("phone-caption");
+      memeDiv.addClass("meme-submission photo-placeholder col-md-4");
+      // memeDiv.attr("data-photoID", element.id);
+      memeDiv.append(caption);
+      memeDiv.append(photoEl);
+      // $("#vote-display").append(memeDiv);
+      // let photoDiv = $("<div class='photo-display__card col-md-4'>");
+      // photoDiv.css("background-image", "url('../../../../" + element.location + "')")
+      // let photoEl = $("<img>").attr("src", element.location);
+      // let captionEl = $("<p>").text(element.caption);
+      // photoDiv.append(photoEl);
+      // photoDiv.append(captionEl);
+      $("#photo-display").append(memeDiv);
     });
   }
 
@@ -196,9 +219,7 @@ const firebaseBot = (function () {
     let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
     database.ref('games/' + gameID + '/captionCount').once("value").then(function (snapshot) {
-      console.log("snapshot value", snapshot.val());
       let newCaptionCount = snapshot.val() + 1;
-      console.log("newCaptionCount", newCaptionCount);
       database.ref('games/' + gameID).update({
         captionCount: newCaptionCount
       })
@@ -207,11 +228,8 @@ const firebaseBot = (function () {
   }
 
   function incrementVoteCount(gameID, playerID, roundNumber) {
-    // let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     database.ref('games/' + gameID + '/votes').once("value").then(function (snapshot) {
-      console.log("snapshot value", snapshot.val());
       let newVoteCount = snapshot.val() + 1;
-      console.log("newVoteCount", newVoteCount);
       database.ref('games/' + gameID).update({
         votes: newVoteCount
       })

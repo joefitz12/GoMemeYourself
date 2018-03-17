@@ -43,6 +43,7 @@ function renderNewGame(data) {
   $("#start-game").hide();
   $("#game-info__display").show();
   $("#game-id__display").text("Game ID: " + data.id);
+  $("#game-round__display").text("Round: " + (data.round + 1));
 }
 
 function getPhotos() {

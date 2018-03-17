@@ -1,0 +1,12 @@
+body {
+  background: #6A8EAE;
+}
+
+.photo-display__card {
+  height: 100%;
+}
+
+img {
+  width: 100%;
+  overflow: hidden;
+}
