@@ -2,11 +2,19 @@ body {
   background: #6A8EAE;
 }
 
-.photo-display__card {
-  height: 100%;
+.meme-container {
+  position: relative;
+  margin: 10px;
+  height: 33vw;
 }
 
-img {
+.meme-caption {
+  position: absolute;
+  left: 0;
+  bottom: 2vw;
+  right: 0;
+  font-size: 2rem;
   width: 100%;
-  overflow: hidden;
+  z-index: 2;
+  background: rgba(128, 128, 128, 0.678)
 }
