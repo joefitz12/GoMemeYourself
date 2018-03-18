@@ -124,9 +124,7 @@ $("#room-id-submit").on("click", function (event) {
       success: function (data) {
         console.log('join successful!\n' + data);
         let playerID = data.playerID;
-        console.log("round", data.round);
         let roundNumber = data.round + 1;
-        console.log("round", roundNumber);
         location.replace("/phone-camera/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
       }
     });
