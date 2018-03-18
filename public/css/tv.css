@@ -8,6 +8,13 @@ body {
   border-top: solid 2px #FFA69E;
 }
 
+.button {
+  font-size: 2rem; 
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 h1 {
   font-size: 5rem;
 }
