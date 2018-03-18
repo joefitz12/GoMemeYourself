@@ -23,13 +23,13 @@ module.exports = function (app) {
 
         // store all uploads in the /uploads directory
         form.uploadDir = path.join(__dirname, '../public/photos');
+        console.log("outside form.uploadDir", form.uploadDir);
 
 
         // every time a file has been uploaded successfully,
         // rename it to it's orignal name
         form.on('file', function (field, file) {
             fileName = file.name;
-            dbLocation = "photos/" + fileName;
             fs.rename(file.path, path.join(form.uploadDir, file.name));
         });
 
@@ -46,14 +46,12 @@ module.exports = function (app) {
             else if (name === "rotationAngle") {
                 rotationAngle = parseInt(value);
             }
-
-
-
         });
 
         form.on('end', function () {
-            console.log("end roundNumber", roundNumber);
-            console.log("end dbLocatoion", dbLocation);
+            let newFileName = "gameID" + gameID + "playerID" + playerID + "round" + roundNumber;
+            dbLocation = "photos/" + newFileName;
+            fs.rename(path.join(form.uploadDir, fileName), path.join(form.uploadDir, newFileName) + ".jpg");
             db.Photo.create({
                 GameId: gameID,
                 PlayerId: playerID,
@@ -87,9 +85,7 @@ module.exports = function (app) {
                 id: parseInt(req.body.GameId)
             }
         }).then(function (gameInfo) {
-            console.log("gameInfo round", gameInfo.round);
             db.Player.create(req.body).then(function (response) {
-                console.log("playerid", response.id);
                 let joinGameInfo = {
                     round: gameInfo.round,
                     playerID: response.id
@@ -114,7 +110,6 @@ module.exports = function (app) {
                     id: req.body.photoID
                 }
             }).then(function (response) {
-                console.log(response);
                 res.json(response);
             });
     });
@@ -165,7 +160,6 @@ module.exports = function (app) {
 
     //Add a score to the players table
     app.put("/players/scores", function (req, res) {
-        console.log(req.body);
         for (let player in req.body) {
             db.Player.update(
                 { score: parseInt(req.body[player]) },
@@ -177,7 +171,6 @@ module.exports = function (app) {
 
     //Update the voted boolean on the players table
     app.put("/voted/update", function (req, res) {
-        console.log(req.body);
         db.Player.update(
             { voted: false },
             { where: { id: req.body.playerID } }
@@ -200,14 +193,12 @@ module.exports = function (app) {
                     }
                 })
                     .then(function (data) {
-                        console.log("data");
                         res.json(data);
                     });
             });
     });
 
     app.get("/angle/get/:photoID", function (req, res) {
-        console.log(req.params.photoID);
         db.Photo.findOne({
             attributes: ["rotationAngle"],
             where: {
