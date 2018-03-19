@@ -6,6 +6,8 @@
     <title>Go Meme Yourself</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../../../css/phone.css" />
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
@@ -20,7 +22,7 @@
     <div class="container-fluid">
         <div class="row phone-header">
             <div class="col-md-12">
-                <h1>Go Meme Yourself</h1>
+                    <h1>go<strong>MEME</strong>yourself</h1>
             </div>
         </div>
     </div>
@@ -31,7 +33,6 @@
                 <div class="row">
                     <div class="col-md-12 photo-section">
                         <div id="camera-button" class="photo-placeholder">
-                            <i class="fas fa-camera"></i>
                             <div id="rotate-div">
                             </div>
                         </div>
@@ -42,7 +43,7 @@
                         <form>
                             Caption
                             <br />
-                            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" id="caption-value" name="caption" value="Your caption here...">
+                            <input type="text" id="caption-value" name="caption" placeholder="Your caption here...">
                         </form>
                     </div>
                 </div>
@@ -57,10 +58,19 @@
 
         <div class="row modal-row">
             <div class="col-md-12 modal-div">
-                <h2 class="modal-text">Waiting for other<br />players<br /></h2>
+                <h2 class="modal-text">Waiting for other
+                    <br />players
+                    <br />
+                </h2>
             </div>
         </div>
 
+        
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row footer"></div>
     </div>
 
 

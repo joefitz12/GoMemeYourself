@@ -1,16 +1,42 @@
 body {
     background: #6A8EAE;
-    height: 100%;
+    height: 100vh;
     font-size: 7vw;
+    color: #222;
+    border-top: solid 2px #FFA69E;
+    border-left: solid 2px #FFA69E;
+    border-right: solid 2px #FFA69E;
+    position: relative;
+}
+
+@media (min-height: 101vh) {
+    body {
+        height: 100%;
+    }
 }
 
 .phone-header {
     background: #D1FAFF;
-    border: solid 2px #FFA69E;
+    border-bottom: solid 4px #FFA69E;
+    border-top: solid 2px #FFA69E;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    border-bottom: solid 2px #FFA69E;
+    width: 100%;
 }
 
 h1 {
+    font-size: 7vw;
+    font-family: 'Mina', sans-serif;
+}
+
+strong {
     font-size: 10vw;
+    font-style: bold;
+    font-family: 'Inconsolata', monospace;
 }
 
 .container {
@@ -19,8 +45,19 @@ h1 {
     position: relative;
 }
 
+.container-fluid {
+    width: 100vw;
+}
+
 .form-row {
+    text-transform: uppercase;
     text-align: center;
+    font-family: 'Inconsolata', monospace;
+}
+
+input {
+    text-align: left;
+    font-family: Arial;
 }
 
 #join-room, .modal-row {
@@ -41,6 +78,7 @@ h1 {
 
 .modal-text {
     font-size: 6vw;
+    font-family: 'Mina', sans-serif;
     text-align: center;
     padding-top: 10vh;
     padding-bottom: 8vh;
@@ -83,6 +121,11 @@ h1 {
     display: none;
 }
 
+.progress-bar {
+    background-color: #FFA69E;
+    /* color: #FFA69E; */
+}
+
 #room-id, #caption-value {
     width: 100%;
 }
@@ -92,7 +135,7 @@ h1 {
 }
 
 .photo-placeholder {
-    background: whitesmoke;
+    background: lightgrey;
     position: relative;
     text-align: center;
     width: 100%;
@@ -103,6 +146,11 @@ h1 {
 
 .meme-submission {
     margin-top: 10%;
+}
+
+.vote-scroll {
+    height: 83vh;
+    overflow: scroll;
 }
 
 .phone-caption {
@@ -120,6 +168,15 @@ h1 {
     bottom: 5vw;
     right: 5vw;
     color: grey;
+    z-index: 5;
+}
+
+.fa-user {
+    font-size: 90vw;
+    position: absolute;
+    bottom: 0vw;
+    right: -10vw;
+    color: #FFA69E;
 }
 
 #rotate-div, 
@@ -132,6 +189,7 @@ h1 {
 .fa-undo-alt {
     position: absolute;
     color: #FFA69E;
+    text-shadow: 2px 2px 4px grey;
 }
 
 .rotate-right {
@@ -155,6 +213,8 @@ h1 {
 button {
     font-size: 5vw;
     text-transform: uppercase;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bold;
     padding: 15px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -162,7 +222,7 @@ button {
 }
 
 .selected {
-    border: 3px solid #D1FAFF;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 4px solid #D1FAFF;
+    box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2), 0 7px 22px 0 rgba(0, 0, 0, 0.19);
 }
 

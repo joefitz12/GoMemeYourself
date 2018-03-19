@@ -5,7 +5,8 @@ $("#camera-button").on("click", function (event) {
 
 $("#photo-to-upload").on("change", function () {
   if ($("#photo-to-upload").val() !== "") {
-    $(".fa-camera-retro").hide();
+    $(".fa-camera").hide();
+    $(".fa-user").hide();
     let imageFile = $("#photo-to-upload").get(0).files[0];
     let preview = $('<img>');
     preview.src = window.URL.createObjectURL(imageFile);
@@ -164,6 +165,9 @@ $("#caption-submit").on("click", function (event) {
 $(document).on("click", ".meme-submission", function () {
   if (!$(".selected")) {
     $(this).addClass("selected");
+  }
+  else if ($(this).hasClass("selected")){
+    $(".selected").removeClass("selected");
   }
   else {
     $(".selected").removeClass("selected");
