@@ -36,7 +36,7 @@ h1 {
 #title-meme {
     font-size: 10vw;
     font-weight: bold;
-    font-family: 'Inconsolata';
+    font-family: 'Inconsolata', monospace;
 }
 
 .container {
@@ -132,6 +132,7 @@ input {
 
 #photo-section {
     position: relative;
+    width: 100%;
 }
 
 .photo-placeholder {
@@ -139,9 +140,8 @@ input {
     position: relative;
     text-align: center;
     width: 100%;
-    height: 60vh;
+    padding-top: 100%;
     overflow: hidden;
-    border: solid 4px grey;
 }
 
 .meme-submission {
@@ -156,10 +156,10 @@ input {
 .phone-caption {
     position: absolute;
     bottom: 10vw;
-    font-size: 8vw;
+    font-size: 7vw;
     width: 100%;
     z-index: 2;
-    background: rgba(128, 128, 128, 0.3)
+    background: rgba(128, 128, 128, 0.5)
 }
 
 .fa-camera {
@@ -172,10 +172,10 @@ input {
 }
 
 .fa-user {
-    font-size: 90vw;
+    font-size: 72vw;
     position: absolute;
-    bottom: 0vw;
-    right: -10vw;
+    right: -1vw;
+    bottom: -5vw;
     color: #FFA69E;
 }
 
@@ -184,6 +184,7 @@ input {
     position: absolute;
     width: 100%;
     height: 100%;
+    top: 0;
 }
 
 .fa-undo-alt {
@@ -222,7 +223,6 @@ button {
 }
 
 .selected {
-    border: 4px solid #D1FAFF;
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2), 0 7px 22px 0 rgba(0, 0, 0, 0.19);
 }
 
