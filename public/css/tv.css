@@ -28,6 +28,7 @@ strong {
 
 #right-header {
   position: relative;
+  
 }
 
 .game-info {
@@ -48,14 +49,17 @@ strong {
 
 .meme-container {
   position: relative;
-  margin: 10px 5vw;
-  height: 23vw;
+  margin: 10px auto;
   padding: 0;
+  height: 21vw;
 }
 
 .meme-photo {
-  height: 23vw;
+  position: absolute;
+  padding-top: 100%;
   width: 100%;
+  top: 0;
+  background-position: center center;
 }
 
 .meme-caption {
