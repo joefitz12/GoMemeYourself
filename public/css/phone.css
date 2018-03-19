@@ -126,7 +126,7 @@ input {
     /* color: #FFA69E; */
 }
 
-#room-id, #caption-value {
+#room-id, #caption-value, #nickname-value {
     width: 100%;
 }
 
