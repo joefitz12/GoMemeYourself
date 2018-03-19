@@ -17,6 +17,13 @@ body {
 
 h1 {
   font-size: 5rem;
+  font-family: 'Mina', sans-serif;
+}
+
+strong {
+  font-size: 6rem;
+  font-style: bold;
+  font-family: 'Inconsolata', monospace;
 }
 
 #right-header {
@@ -41,13 +48,13 @@ h1 {
 
 .meme-container {
   position: relative;
-  margin: 10px;
-  height: 25vw;
+  margin: 10px 5vw;
+  height: 23vw;
   padding: 0;
 }
 
 .meme-photo {
-  height: 25vw;
+  height: 23vw;
   width: 100%;
 }
 
