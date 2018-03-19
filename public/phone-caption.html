@@ -30,21 +30,19 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12 photo-section">
-                        <i class="fas fa-undo-alt rotate-right" id="flip"></i>
-                        <i class="fas fa-undo-alt rotate-left"></i>
                         <div id="camera-button" class="photo-placeholder">
-                            <i class="fas fa-camera-retro"></i>
+                            <i class="fas fa-camera"></i>
                             <div id="rotate-div">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row form-row">
                     <div class="col-md-12">
                         <form>
                             Caption
                             <br />
-                            <input type="text" id="caption-value" name="caption" value="Your caption here...">
+                            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" id="caption-value" name="caption" value="Your caption here...">
                         </form>
                     </div>
                 </div>
@@ -57,6 +55,11 @@
 
         </div>
 
+        <div class="row modal-row">
+            <div class="col-md-12 modal-div">
+                <h2 class="modal-text">Waiting for other<br />players<br /></h2>
+            </div>
+        </div>
 
     </div>
 

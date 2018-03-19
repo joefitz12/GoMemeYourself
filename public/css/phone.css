@@ -6,8 +6,7 @@ body {
 
 .phone-header {
     background: #D1FAFF;
-    border-bottom: solid 2px #FFA69E;
-    border-top: solid 2px #FFA69E;
+    border: solid 2px #FFA69E;
 }
 
 h1 {
@@ -17,26 +16,67 @@ h1 {
 .container {
     width: 80vw;
     margin-top: 0;
+    position: relative;
 }
 
 .form-row {
     text-align: center;
 }
 
-#join-room {
+#join-room, .modal-row {
     padding-top: 50%;
 }
+
+.modal-row {
+    position: absolute;
+    top: 5vh;
+    width: 100%;
+}
+
+.modal-div {
+    width: 100%;
+    background: #D1FAFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.modal-text {
+    font-size: 6vw;
+    text-align: center;
+    padding-top: 10vh;
+    padding-bottom: 8vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    border: solid 4px #FFA69E;
+}
+
+.modal-text:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(4,end) 1250ms infinite;      
+    animation: ellipsis steps(4,end) 1250ms infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    width: 0px;
+  }
+  
+  @keyframes ellipsis {
+    to {
+      width: 1em;    
+    }
+  }
+  
+  @-webkit-keyframes ellipsis {
+    to {
+      width: 1em;    
+    }
+  }
 
 #add-nickname {
     padding-top: 10%;
 }
 
 .upload-photo, .caption-photo {
-    padding-top: 30%;
-}
-
-.add-vote {
-    padding-top: 10%;
+    padding-top: 20%;
 }
 
 #photo-to-upload {
@@ -52,16 +92,17 @@ h1 {
 }
 
 .photo-placeholder {
-    background: lightgray;
+    background: whitesmoke;
     position: relative;
     text-align: center;
     width: 100%;
     height: 60vh;
     overflow: hidden;
+    border: solid 4px grey;
 }
 
 .meme-submission {
-    margin-bottom: 10%;
+    margin-top: 10%;
 }
 
 .phone-caption {
@@ -73,11 +114,11 @@ h1 {
     background: rgba(128, 128, 128, 0.3)
 }
 
-.fa-camera-retro {
-    font-size: 60vw;
+.fa-camera {
+    font-size: 10vw;
     position: absolute;
-    top: 5vw;
-    left: 5vw;
+    bottom: 5vw;
+    right: 5vw;
     color: grey;
 }
 
@@ -112,7 +153,8 @@ h1 {
 }
 
 button {
-    font-size: 6vw;
+    font-size: 5vw;
+    text-transform: uppercase;
     padding: 15px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -121,5 +163,6 @@ button {
 
 .selected {
     border: 3px solid #D1FAFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
