@@ -40,14 +40,24 @@ function incrementRound(currentRound) {
 }
 
 function renderNewGame(data) {
-  $("#start-game").hide();
-  $("#game-info__display").show();
-  $("#game-id__display").text("Game ID: " + data.id);
+  $("#right-header").empty();
+  $("#game-control__display").show();
+  let idSpan = $("<div>");
+  // let roundSpan = $("<div>");
+  idSpan.attr("id", "game-id__display");
+  // roundSpan.attr("id", "game-round__display");
+  idSpan.addClass("game-info");
+  // roundSpan.addClass("game-info");
+  idSpan.text("Game ID: " + data.id);
+  // roundSpan.text();
+  $("#right-header").append(idSpan);
+  // $("#right-header").append(roundSpan);
 }
 
 function getPhotos() {
-  gameState = updateGameState(gameState, {round: incrementRound(gameState.round)})
-  console.log("getPhoto", gameState);
+  gameState = updateGameState(gameState, {round: incrementRound(gameState.round)});
+  $(".game-info").text("Game ID: " + gameState.id + " " + "Round: " + gameState.round)
+  $("#game-control__display").hide();
   $.get("/photos/" + gameState.id + "/" + gameState.round)
     .then(firebaseBot.startRound);
 }
