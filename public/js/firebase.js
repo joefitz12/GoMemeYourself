@@ -52,7 +52,7 @@ const firebaseBot = (function () {
       });
       let caption = $("<p>").text(element.caption);
       caption.addClass("meme-caption");
-      memeDiv.addClass("meme-container col-md-2");
+      memeDiv.addClass("meme-container col-md-3");
       memeDiv.append(photoDiv);
       memeDiv.append(caption);
       $("#photo-display").append(memeDiv);

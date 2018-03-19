@@ -69,3 +69,10 @@ strong {
   background: rgba(128, 128, 128, 0.678);
   text-align: center;
 }
+
+#score-display {
+  background: white;
+  float: right;
+  height: 90vh;
+  width: 20vw;
+}
