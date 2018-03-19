@@ -6,6 +6,8 @@
     <title>Go Meme Yourself</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
     <link rel="stylesheet" href="css/phone.css" />
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
@@ -19,7 +21,7 @@
     <div class="container-fluid">
         <div class="row phone-header">
             <div class="col-md-12">
-                <h1>Go Meme Yourself</h1>
+                <h1>go<strong>MEME</strong>yourself</h1>
             </div>
         </div>
     </div>
@@ -29,7 +31,7 @@
                 <form id="join-room">
                     Room ID
                     <br />
-                    <input type="text" onClick="this.setSelectionRange(0, this.value.length)" id="room-id" name="roomID" value="Room ID here...">
+                    <input type="text" id="room-id" name="roomID" placeholder="Room ID here...">
                 </form>
             </div>
         </div>
@@ -38,11 +40,14 @@
                 <form id="add-nickname">
                     Nickname
                     <br />
-                    <input type="text" onClick="this.setSelectionRange(0, this.value.length)" id="nickname-value" name="nickname" value="Nickname here...">
+                    <input type="text" id="nickname-value" name="nickname" placeholder="Nickname here...">
                 </form>
                 <button id="room-id-submit">Submit</button>
             </div>
         </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row footer"></div>
     </div>
 
     <script src="js/phone.js"></script>
