@@ -76,7 +76,5 @@ strong {
 
 #score-display {
   background: white;
-  float: right;
   height: 90vh;
-  width: 20vw;
 }

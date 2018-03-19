@@ -162,7 +162,7 @@ module.exports = function (app) {
             db.Player.update(
                 { score: parseInt(req.body[player]) },
                 { where: { id: player } }
-            );
+            )
         }
         res.end();
     });
@@ -206,6 +206,16 @@ module.exports = function (app) {
             .then(function (data) {
                 res.json(data);
             });
+    });
+
+    app.get("/players/:playerID", function(req, res) {
+      db.Player.findOne({
+        attributes: ["nickname"],
+        where: {id: req.params.playerID}
+      })
+        .then(function(data) {
+          res.json(data);
+        });
     });
 
 };

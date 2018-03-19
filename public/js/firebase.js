@@ -180,8 +180,6 @@ const firebaseBot = (function () {
 
   function addVotesListener() {
     database.ref("games/" + gameState.id + "/votes").on("value", function (snap) {
-      console.log("captions: ", snap.val());
-      console.log("players: ", gameState.players.length);
       if (snap.val() !== 0 && snap.val() === gameState.players.length) {
         $.get("/photos/" + gameState.id + "/" + gameState.round)
           .then(function (data) {
@@ -192,9 +190,20 @@ const firebaseBot = (function () {
               type: "PUT",
               data: gameState.scores,
             });
+            renderScores();
           });
       }
     });
+  }
+
+  function renderScores() {
+    let playerId;
+    for (playerId in gameState.scores) {
+      $.get("/players/" + playerId)
+        .then(function(data) {
+          console.log(data);
+        });
+    }
   }
 
   function incrementCaptionCount() {
