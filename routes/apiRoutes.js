@@ -15,7 +15,7 @@ module.exports = function (app) {
         // create an incoming form object
         var form = new formidable.IncomingForm();
         let fileName = "";
-        let dbLocation = "photos/" + fileName;
+        let dbLocation = "";
         let gameID = 0;
         let playerID = 0;
         let roundNumber = 0;
@@ -30,6 +30,7 @@ module.exports = function (app) {
         // rename it to it's orignal name
         form.on('file', function (field, file) {
             fileName = file.name;
+            dbLocation = "photos/" + fileName;
             fs.rename(file.path, path.join(form.uploadDir, file.name));
         });
 
@@ -49,9 +50,6 @@ module.exports = function (app) {
         });
 
         form.on('end', function () {
-            let newFileName = "gameID" + gameID + "playerID" + playerID + "round" + roundNumber;
-            dbLocation = "photos/" + newFileName;
-            fs.rename(path.join(form.uploadDir, fileName), path.join(form.uploadDir, newFileName) + ".jpg");
             db.Photo.create({
                 GameId: gameID,
                 PlayerId: playerID,

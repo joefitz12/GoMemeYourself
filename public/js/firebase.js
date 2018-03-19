@@ -80,14 +80,7 @@ const firebaseBot = (function () {
       let rotateDiv = $("<div>")
       rotateDiv.css("background-image", "url('../../../../" + element.location + "')");
       rotateDiv.css("background-size", "cover");
-      $.ajax({
-        url: '/angle/get/' + element.id,
-        type: 'GET',
-        success: function (data) {
-          console.log('rotation data!\n' + data.rotationAngle);
-          rotateDiv.css("transform","rotate(" + parseInt(data.rotationAngle) + "deg)");
-        }
-      });
+      rotateDiv.css("transform", "rotate(" + parseInt(element.rotationAngle) + "deg)");
       rotateDiv.addClass("rotate-div");
       let caption = $("<p>").text(element.caption);
       caption.addClass("phone-caption");
@@ -101,6 +94,7 @@ const firebaseBot = (function () {
 
   // function add listener on caption count for phones
   function phoneAddCaptionListener() {
+    $(".add-vote").hide();
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
     console.log("roundNumber", roundNumber);
@@ -115,6 +109,8 @@ const firebaseBot = (function () {
         }
         console.log("playerCount", playerCount);
         if (captionCount !== 0 && captionCount === playerCount) {
+          $(".add-vote").show();
+          $(".modal-row").hide();
           $.get("/photos/" + gameID + "/" + roundNumber)
             .then(renderPhonePhotoCaptions);
         }
@@ -148,10 +144,13 @@ const firebaseBot = (function () {
   }
 
   function addStartRoundListener() {
+    $(".caption-photo").hide();
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     database.ref("games/" + gameID + "/startRound").on("value", function (snap) {
       if (snap.val() === true) {
+        $(".caption-photo").show();
+        $(".modal-row").hide();
         database.ref("games/" + gameID + "/photos").once("value")
           .then(function (snapshot) {
             console.log("snapshot", snapshot.val());
@@ -159,15 +158,7 @@ const firebaseBot = (function () {
             $("#rotate-div").css("background-image", "url('../../../../" + snapshot.val()[playerID].location + "')");
             $("#rotate-div").css("background-size", "cover");
             let photoID = snapshot.val()[playerID].id;
-            console.log("photoID", photoID);
-            $.ajax({
-              url: '/angle/get/' + photoID,
-              type: 'GET',
-              success: function (data) {
-                console.log('rotation data!\n' + data.rotationAngle);
-                $("#rotate-div").css("transform","rotate(" + parseInt(data.rotationAngle) + "deg)");
-              }
-            });
+            $("#rotate-div").css("transform", "rotate(" + parseInt(snapshot.val()[playerID].rotationAngle) + "deg)");
             $("#rotate-div").attr("data-photoID", snapshot.val()[playerID].id);
           })
           .then(function () {

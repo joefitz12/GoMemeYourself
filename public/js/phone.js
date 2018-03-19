@@ -47,7 +47,7 @@ $("#photo-submit").on('click', function () {
         var file = files[i];
 
         // add the files to formData object for the data payload
-        formData.append('uploads[]', file, file.name);
+        formData.append('uploads[]', file, "gameID" + gameID + "playerID" + playerID + "roundNumber" + roundNumber + ".jpg");
         formData.append('gameID', gameID);
         formData.append('playerID', playerID);
         formData.append('roundNumber', roundNumber);
