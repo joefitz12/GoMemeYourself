@@ -12,6 +12,7 @@ $("#photo-to-upload").on("change", function () {
     preview.src = window.URL.createObjectURL(imageFile);
     $("#rotate-div").css("background-image", "url('" + preview.src + "')");
     $("#rotate-div").css("background-size", "cover");
+    $("#rotate-div").css("background-position","center center");
   }
   else {
     $(".fa-camera-retro").show();
