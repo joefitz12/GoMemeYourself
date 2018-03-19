@@ -3,7 +3,6 @@ body {
     height: 100vh;
     font-size: 7vw;
     color: #222;
-    border-top: solid 2px #FFA69E;
     border-left: solid 2px #FFA69E;
     border-right: solid 2px #FFA69E;
     position: relative;
@@ -18,7 +17,7 @@ body {
 .phone-header {
     background: #D1FAFF;
     border-bottom: solid 4px #FFA69E;
-    border-top: solid 2px #FFA69E;
+    border-top: solid 4px #FFA69E;
 }
 
 .footer {
@@ -224,5 +223,25 @@ button {
 
 .selected {
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2), 0 7px 22px 0 rgba(0, 0, 0, 0.19);
+}
+
+#round-number-display {
+    font-size: 6vw;
+    text-transform: uppercase;
+    font-family: 'Inconsolata', monospace;
+}
+
+#game-id-display {
+    font-size: 5vw;
+    text-transform: uppercase;
+    font-family: 'Inconsolata', monospace;
+}
+
+#nickname-display {
+    position: absolute;
+    font-size: 10vw;
+    font-family: 'Mina', sans-serif;
+    text-align: right;
+    bottom: 0;
 }
 

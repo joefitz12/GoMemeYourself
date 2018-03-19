@@ -65,18 +65,35 @@
             </div>
         </div>
 
-        
+
 
     </div>
 
     <div class="container-fluid">
-        <div class="row footer"></div>
+        <div class="row footer">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12" id="round-number-display">Round </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" id="game-id-display">Game ID: </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12" id="nickname-display"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
     <script src="../../../../js/phone.js"></script>
     <script src="../../../../js/firebase.js"></script>
-    <script>firebaseBot.addStartRoundListener();</script>
+    <script>
+        firebaseBot.addStartRoundListener();
+        renderGameData();
+    </script>
 
 </body>
 

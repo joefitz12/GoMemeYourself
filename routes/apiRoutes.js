@@ -208,4 +208,14 @@ module.exports = function (app) {
             });
     });
 
+    app.get("/players/:playerID", function (req, res) {
+        db.Player.findOne({
+            attributes: ["nickname"],
+            where: { id: req.params.playerID }
+        })
+            .then(function (data) {
+                res.json(data);
+            });
+    });
+
 };

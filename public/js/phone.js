@@ -177,9 +177,9 @@ $(document).on("click", ".meme-submission", function () {
 });
 
 $("#vote-submit").on("click", function () {
-  if ($(".selected")) {
+  let photoID = parseInt($(".selected").attr("data-photoID"));
+  if (photoID) {
 
-    let photoID = parseInt($(".selected").attr("data-photoID"));
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
@@ -202,3 +202,17 @@ $("#vote-submit").on("click", function () {
       });
   }
 });
+
+const renderGameData = function(){
+  let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+  let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+  let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
+  let nickname = "";
+
+  $.get('/players/' + playerID)
+  .then(function(data){
+    $("#nickname-display").append(data.nickname);
+    $("#round-number-display").append(roundNumber);
+    $("#game-id-display").append(gameID);
+  });
+};
