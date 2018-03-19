@@ -33,9 +33,9 @@ h1 {
     font-family: 'Mina', sans-serif;
 }
 
-strong {
+#title-meme {
     font-size: 10vw;
-    font-style: bold;
+    font-weight: bold;
     font-family: 'Inconsolata', monospace;
 }
 
