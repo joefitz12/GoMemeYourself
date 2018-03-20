@@ -1,0 +1,93 @@
+body {
+  background: #6A8EAE;
+}
+
+.header {
+  background: #D1FAFF;
+  border-bottom: solid 2px #FFA69E;
+  border-top: solid 2px #FFA69E;
+}
+
+.button {
+  font-size: 2rem; 
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+h1 {
+  font-size: 5rem;
+  font-family: 'Mina', sans-serif;
+}
+
+strong {
+  font-size: 6rem;
+  font-style: bold;
+  font-family: 'Inconsolata', monospace;
+}
+
+#right-header {
+  position: relative;
+  
+}
+
+.game-info {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 50px;
+  font-size: 2rem;
+  display: inline-block;
+}
+
+#game-control__display {
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+  margin-top: 20px;
+}
+
+.meme-container {
+  position: relative;
+  margin: 10px auto;
+  padding: 0;
+  height: 21vw;
+}
+
+.meme-photo {
+  position: absolute;
+  padding-top: 100%;
+  width: 100%;
+  top: 0;
+  background-position: center center;
+}
+
+.meme-caption {
+  position: absolute;
+  left: 0;
+  bottom: 2vw;
+  right: 0;
+  font-size: 2.5rem;
+  width: 100%;
+  z-index: 2;
+  background: rgba(128, 128, 128, 0.678);
+  text-align: center;
+}
+
+h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+#score-display {
+  height: 90vh;
+  font-size: 1.75rem;
+  color: white;
+  font-family: "Mina";
+  padding-top: 20px;
+}
+
+.score-button {
+  margin-bottom: 25px;
+  margin-left: 25%;
+}
