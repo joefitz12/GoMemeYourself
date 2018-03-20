@@ -83,7 +83,7 @@ $("#photo-submit").on('click', function () {
                 $('.progress-bar').html('Done');
                 $.get("/photos/" + gameID + "/" + roundNumber)
                   .then(function(results){
-                    for (i = 0; i < results.length; i++){
+                    for (let i = 0; i < results.length; i++){
                       if (results[i].PlayerId === playerID){
                         location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
                       }
