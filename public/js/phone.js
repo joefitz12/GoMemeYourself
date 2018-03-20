@@ -87,9 +87,6 @@ $("#photo-submit").on('click', function () {
                       if (results[i].PlayerId === playerID){
                         location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
                       }
-                      else {
-                        console.log("error message: photo didn't upload");
-                      }
                     }
                   });
                 
