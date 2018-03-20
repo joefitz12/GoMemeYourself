@@ -74,7 +74,15 @@ strong {
   text-align: center;
 }
 
+h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
 #score-display {
-  background: white;
   height: 90vh;
+  font-size: 1.75rem;
+  color: white;
+  font-family: "Mina";
+  padding-top: 20px;
 }

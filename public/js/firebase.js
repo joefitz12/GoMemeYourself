@@ -35,7 +35,7 @@ const firebaseBot = (function () {
   }
 
   function renderPhotoCaptions(response) {
-    console.log("renderPhotoCaptions response", response);
+    $("#photo-display").empty();
     response.forEach(function (element) {
       let memeDiv = $("<div>");
       let photoDiv = $("<div>")
@@ -134,7 +134,6 @@ const firebaseBot = (function () {
 
   function startRound(data) {
     let firebaseData = assignPhotos(data);
-    // update firebase with assignPhotos(data) 
     database.ref('games/' + gameState.id).update({
       photos: firebaseData,
       startRound: true,
@@ -197,6 +196,9 @@ const firebaseBot = (function () {
   }
 
   function renderScores() {
+    $("#score-display").empty();
+    let h2 = $("<h2>").text("SCOREBOARD");
+    $("#score-display").append(h2);
     gameState.players.forEach(elem => {
       $.get("/players/" + elem)
         .then(function(data) {
@@ -210,6 +212,11 @@ const firebaseBot = (function () {
           $("#score-display").append(scoreDiv);
         });
     });
+    let button = $("<button>").text("Next Round");
+    button.attr("id", "start-round");
+    button.attr("type", "button");
+    button.addClass("btn btn-secondary");
+    $("#score-display").append(button);
   };
 
   function incrementCaptionCount() {
