@@ -86,3 +86,8 @@ h2 {
   font-family: "Mina";
   padding-top: 20px;
 }
+
+.score-button {
+  margin-bottom: 25px;
+  margin-left: 25%;
+}

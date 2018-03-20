@@ -197,6 +197,11 @@ const firebaseBot = (function () {
 
   function renderScores() {
     $("#score-display").empty();
+    let button = $("<button>").text("Next Round");
+    button.attr("id", "start-round");
+    button.attr("type", "button");
+    button.addClass("btn btn-secondary score-button");
+    $("#score-display").prepend(button);
     let h2 = $("<h2>").text("SCOREBOARD");
     $("#score-display").append(h2);
     gameState.players.forEach(elem => {
@@ -212,11 +217,6 @@ const firebaseBot = (function () {
           $("#score-display").append(scoreDiv);
         });
     });
-    let button = $("<button>").text("Next Round");
-    button.attr("id", "start-round");
-    button.attr("type", "button");
-    button.addClass("btn btn-secondary");
-    $("#score-display").append(button);
   };
 
   function incrementCaptionCount() {
