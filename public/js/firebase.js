@@ -197,14 +197,20 @@ const firebaseBot = (function () {
   }
 
   function renderScores() {
-    let playerId;
-    for (playerId in gameState.scores) {
-      $.get("/players/" + playerId)
+    gameState.players.forEach(elem => {
+      $.get("/players/" + elem)
         .then(function(data) {
-          console.log(data);
+          let scoreDiv;
+          if (!gameState.scores[elem]) {
+            scoreDiv = $("<div>").text(data.nickname + ": " + 0);
+          } else {
+            scoreDiv = $("<div>").text(data.nickname + ": " + gameState.scores[elem]);
+          }
+          
+          $("#score-display").append(scoreDiv);
         });
-    }
-  }
+    });
+  };
 
   function incrementCaptionCount() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
