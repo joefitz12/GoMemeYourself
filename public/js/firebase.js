@@ -47,7 +47,7 @@ const firebaseBot = (function () {
         type: 'GET',
         success: function (data) {
           console.log('rotation data!\n' + data.rotationAngle);
-          photoDiv.css("transform","rotate(" + parseInt(data.rotationAngle) + "deg)");
+          photoDiv.css("transform", "rotate(" + parseInt(data.rotationAngle) + "deg)");
         }
       });
       let caption = $("<p>").text(element.caption);
@@ -143,35 +143,40 @@ const firebaseBot = (function () {
     });
   }
 
-  function addStartRoundListener() {
-    $(".caption-photo").hide();
+  function phoneCaptionPageRender() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+    $(".modal-row").hide();
+    database.ref("games/" + gameID + "/photos").once("value")
+      .then(function (snapshot) {
+        $("#rotate-div").css("background-image", "url('../../../../" + snapshot.val()[playerID].location + "')");
+        $("#rotate-div").css("background-size", "cover");
+        $("#rotate-div").css("background-position", "center center");
+        $("#rotate-div").css("transform", "rotate(" + parseInt(snapshot.val()[playerID].rotationAngle) + "deg)");
+        $("#rotate-div").attr("data-photoID", snapshot.val()[playerID].id);
+      })
+      .then(function () {
+        playerData = {
+          playerID: playerID
+        };
+        $.ajax({
+          url: '/voted/update',
+          type: 'PUT',
+          data: playerData,
+          success: function (data) {
+            console.log('updated voted field!\n' + data);
+          }
+        });
+      });
+  }
+
+  function addStartRoundListener() {
+    let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+    let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+    let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
     database.ref("games/" + gameID + "/startRound").on("value", function (snap) {
       if (snap.val() === true) {
-        $(".caption-photo").show();
-        $(".modal-row").hide();
-        database.ref("games/" + gameID + "/photos").once("value")
-          .then(function (snapshot) {
-            $("#rotate-div").css("background-image", "url('../../../../" + snapshot.val()[playerID].location + "')");
-            $("#rotate-div").css("background-size", "cover");
-            $("#rotate-div").css("background-position", "center center");
-            $("#rotate-div").css("transform", "rotate(" + parseInt(snapshot.val()[playerID].rotationAngle) + "deg)");
-            $("#rotate-div").attr("data-photoID", snapshot.val()[playerID].id);
-          })
-          .then(function () {
-            playerData = {
-              playerID: playerID
-            };
-            $.ajax({
-              url: '/voted/update',
-              type: 'PUT',
-              data: playerData,
-              success: function (data) {
-                console.log('updated voted field!\n' + data);
-              }
-            });
-          });
+        location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
       }
     });
   }
@@ -205,14 +210,14 @@ const firebaseBot = (function () {
     $("#score-display").append(h2);
     gameState.players.forEach(elem => {
       $.get("/players/" + elem)
-        .then(function(data) {
+        .then(function (data) {
           let scoreDiv;
           if (!gameState.scores[elem]) {
             scoreDiv = $("<div>").text(data.nickname + ": " + 0);
           } else {
             scoreDiv = $("<div>").text(data.nickname + ": " + gameState.scores[elem]);
           }
-          
+
           $("#score-display").append(scoreDiv);
         });
     });
@@ -250,6 +255,7 @@ const firebaseBot = (function () {
     createNewGame,
     incrementCaptionCount,
     incrementVoteCount,
-    phoneAddCaptionListener
+    phoneAddCaptionListener,
+    phoneCaptionPageRender
   };
 })();

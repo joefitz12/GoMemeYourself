@@ -81,12 +81,9 @@ $("#photo-submit").on('click', function () {
               // once the upload reaches 100%, set the progress bar text to done
               if (percentComplete === 100) {
                 $('.progress-bar').html('Done');
-                $.get("/photos/" + gameID + "/" + playerID + "/" + roundNumber).then(function (results) {
-                  if (results.location) {
-                    location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
-                  }
-
-                });
+                $(".modal-row").show();
+                $(".upload-photo").hide();
+                firebaseBot.addStartRoundListener();
               }
             }
 
@@ -94,15 +91,6 @@ $("#photo-submit").on('click', function () {
           return xhr;
         }
       });
-      // .then(function () {
-      //   $.get("/photos/" + gameID + "/" + roundNumber).then(function (results) {
-      //     for (let i = 0; i < results.length; i++) {
-      //       if (results[i].PlayerId === playerID) {
-      //         location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
-      //       }
-      //     }
-      //   });
-      // });
     }
   }
 });
