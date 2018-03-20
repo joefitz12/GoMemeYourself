@@ -156,7 +156,6 @@ const firebaseBot = (function () {
             $("#rotate-div").css("background-image", "url('../../../../" + snapshot.val()[playerID].location + "')");
             $("#rotate-div").css("background-size", "cover");
             $("#rotate-div").css("background-position", "center center");
-            let photoID = snapshot.val()[playerID].id;
             $("#rotate-div").css("transform", "rotate(" + parseInt(snapshot.val()[playerID].rotationAngle) + "deg)");
             $("#rotate-div").attr("data-photoID", snapshot.val()[playerID].id);
           })
