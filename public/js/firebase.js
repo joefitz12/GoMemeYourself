@@ -91,6 +91,18 @@ const firebaseBot = (function () {
       memeDiv.append(rotateDiv);
       $("#vote-display").append(memeDiv);
     });
+    $(".meme-submission").on("click", function () {
+      if (!$(".selected")) {
+        $(this).addClass("selected");
+      }
+      else if ($(this).hasClass("selected")) {
+        $(".selected").removeClass("selected");
+      }
+      else {
+        $(".selected").removeClass("selected");
+        $(this).addClass("selected");
+      }
+    });
   }
 
   // function add listener on caption count for phones
