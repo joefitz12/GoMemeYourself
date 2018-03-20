@@ -12,7 +12,7 @@ $("#photo-to-upload").on("change", function () {
     preview.src = window.URL.createObjectURL(imageFile);
     $("#rotate-div").css("background-image", "url('" + preview.src + "')");
     $("#rotate-div").css("background-size", "cover");
-    $("#rotate-div").css("background-position","center center");
+    $("#rotate-div").css("background-position", "center center");
   }
   else {
     $(".fa-camera-retro").show();
@@ -81,23 +81,22 @@ $("#photo-submit").on('click', function () {
               // once the upload reaches 100%, set the progress bar text to done
               if (percentComplete === 100) {
                 $('.progress-bar').html('Done');
-                $.get("/photos/" + gameID + "/" + roundNumber)
-                  .then(function(results){
-                    for (let i = 0; i < results.length; i++){
-                      if (results[i].PlayerId === playerID){
-                        location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
-                      }
-                    }
-                  });
-                
               }
-
             }
 
           }, false);
           return xhr;
         }
-      });
+      })
+        .then(function () {
+          $.get("/photos/" + gameID + "/" + roundNumber).then(function (results) {
+            for (let i = 0; i < results.length; i++) {
+              if (results[i].PlayerId === playerID) {
+                location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
+              }
+            }
+          });
+        });
     }
   }
 });
@@ -175,7 +174,7 @@ $(document).on("click", ".meme-submission", function () {
   if (!$(".selected")) {
     $(this).addClass("selected");
   }
-  else if ($(this).hasClass("selected")){
+  else if ($(this).hasClass("selected")) {
     $(".selected").removeClass("selected");
   }
   else {
@@ -211,16 +210,16 @@ $("#vote-submit").on("click", function () {
   }
 });
 
-const renderGameData = function(){
+const renderGameData = function () {
   let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
   let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
   let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
   let nickname = "";
 
   $.get('/players/' + playerID)
-  .then(function(data){
-    $("#nickname-display").append(data.nickname);
-    $("#round-number-display").append(roundNumber);
-    $("#game-id-display").append(gameID);
-  });
+    .then(function (data) {
+      $("#nickname-display").append(data.nickname);
+      $("#round-number-display").append(roundNumber);
+      $("#game-id-display").append(gameID);
+    });
 };
