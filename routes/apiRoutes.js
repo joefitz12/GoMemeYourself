@@ -217,4 +217,21 @@ module.exports = function (app) {
                 res.json(data);
             });
     });
+
+    app.get("/photos/:gameID/:playerID/:roundNumber", function (req, res) {
+        db.Photo.findOne({
+            attributes: ["location"],
+            where: { 
+                GameId: req.params.gameID,
+                PlayerId: req.params.playerID,
+                round: req.params.roundNumber
+            }
+        })
+            .then(function (data) {
+                res.json(data);
+            })
+            .catch(function(err){
+                res.json(err);
+            });
+    });
 };
