@@ -42,16 +42,13 @@ function incrementRound(currentRound) {
 function renderNewGame(data) {
   $("#right-header").empty();
   $("#game-control__display").show();
+  let h2 = $("<h2>").text("SCOREBOARD");
+  $("#score-display").append(h2);
   let idSpan = $("<div>");
-  // let roundSpan = $("<div>");
   idSpan.attr("id", "game-id__display");
-  // roundSpan.attr("id", "game-round__display");
   idSpan.addClass("game-info");
-  // roundSpan.addClass("game-info");
   idSpan.text("Game ID: " + data.id);
-  // roundSpan.text();
   $("#right-header").append(idSpan);
-  // $("#right-header").append(roundSpan);
 }
 
 function getPhotos() {

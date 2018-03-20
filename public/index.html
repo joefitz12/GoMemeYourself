@@ -20,27 +20,38 @@
 
   <div class="container-fluid">
     <div class="row header">
-      <div class="col-md-8">
+      <div class="col-md-9">
         <h1>go<strong>MEME</strong>yourself</h1>
       </div>
-      <div id="right-header" class="col-md-4">
+      <div id="right-header" class="col-md-3">
         <button id="start-game" class="btn btn-dark button">Start Game</button>
       </div>
     </div>
   </div>
   <div class="container-fluid">
-    <div id="game-control__display" class="row">
-      <div class="col-md-6 offset-md-3">
-        <p id="game-control__url">Go to go-meme-yourself.herokuapp.com/join to join this game</p>
-        <p>Click START ROUND once everyone has submitted a photo</p>
-        <button id="start-round" type="button" class="btn btn-primary">Start Round</button>
+    <div class="row">
+      <div class="col-md-10">
+        <div id="game-control__display" class="row">
+          <div class="col-md-8 offset-md-2">
+            <p id="game-control__url">Go to go-meme-yourself.herokuapp.com/join to join this game</p>
+            <p>Click START ROUND once everyone has submitted a photo</p>
+            <button id="start-round" type="button" class="btn btn-secondary">Start Round</button>
+          </div>
+        </div>
+        <div id="photo-display" class="row">
+        </div>
       </div>
+      <div class="col-md-2">
+        <div class="row">
+          <div id="score-display" class="col-md-12">
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div id="photo-display" class="row">
-    </div>
-    <div id="score-display" class="row">
-    </div>
+
   </div>
+
 
   <script src="js/firebase.js"></script>
   <script src="js/tv.js"></script>
