@@ -12,6 +12,7 @@ $("#photo-to-upload").on("change", function () {
     preview.src = window.URL.createObjectURL(imageFile);
     $("#rotate-div").css("background-image", "url('" + preview.src + "')");
     $("#rotate-div").css("background-size", "cover");
+    $("#rotate-div").css("background-position","center center");
   }
   else {
     $(".fa-camera-retro").show();
@@ -80,7 +81,18 @@ $("#photo-submit").on('click', function () {
               // once the upload reaches 100%, set the progress bar text to done
               if (percentComplete === 100) {
                 $('.progress-bar').html('Done');
-                location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
+                $.get("/photos/" + gameID + "/" + roundNumber)
+                  .then(function(results){
+                    for (i = 0; i < results.length; i++){
+                      if (results[i].PlayerId === playerID){
+                        location.replace("/phone-caption/gameID=" + gameID + "/playerID=" + playerID + "/roundNumber=" + roundNumber + "/");
+                      }
+                      else {
+                        console.log("error message: photo didn't upload");
+                      }
+                    }
+                  });
+                
               }
 
             }
@@ -176,9 +188,9 @@ $(document).on("click", ".meme-submission", function () {
 });
 
 $("#vote-submit").on("click", function () {
-  if ($(".selected")) {
+  let photoID = parseInt($(".selected").attr("data-photoID"));
+  if (photoID) {
 
-    let photoID = parseInt($(".selected").attr("data-photoID"));
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
@@ -201,3 +213,17 @@ $("#vote-submit").on("click", function () {
       });
   }
 });
+
+const renderGameData = function(){
+  let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
+  let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
+  let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
+  let nickname = "";
+
+  $.get('/players/' + playerID)
+  .then(function(data){
+    $("#nickname-display").append(data.nickname);
+    $("#round-number-display").append(roundNumber);
+    $("#game-id-display").append(gameID);
+  });
+};
