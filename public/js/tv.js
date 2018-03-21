@@ -4,6 +4,11 @@ let gameState = {
   players: []
 };
 
+/**
+* createNewGame
+* creates a new game in the database 
+* @returns {undefined}
+*/
 function createNewGame(){
   let gameData = {round: 0}
   $.post("/games/new", gameData)
@@ -14,6 +19,13 @@ function createNewGame(){
     });
 }
 
+
+/**
+* setGameState
+* creates a new gameState object 
+* @param {object} data - the newGame object just created in the database
+* @returns {object}
+*/
 function setGameState(data) {
   return {
     id: data.id,
@@ -22,6 +34,14 @@ function setGameState(data) {
   }
 }
 
+
+/**
+* updateGameState
+* creates a new object from params given
+* @param {object} oldState - the current gameState
+* @param {object} newProp - the property to update/add
+* @returns {object}
+*/
 function updateGameState(oldState, newProp) {
   return {
     ...oldState,
@@ -29,16 +49,34 @@ function updateGameState(oldState, newProp) {
   }
 }
 
+/**
+* createPlayersArray
+* creates an array of playerIDs and assign it to the players property of a new object
+* @param {array} data - the query result
+* @returns {object}
+*/
 function createPlayersArray(data) {
   let newArray = [];
   data.forEach(dataObj => newArray.push(dataObj.PlayerId));
   return {players: newArray};
 }
 
+/**
+* incrementRound
+* increments the round number by one
+* @param {number} currentRound - the current round number
+* @returns {number} - the new round number
+*/
 function incrementRound(currentRound) {
   return ++currentRound;
 }
 
+/**
+* renderNewGame
+* renders game information to page
+* @param {object} data - the game object from database
+* @returns {undefined}
+*/
 function renderNewGame(data) {
   $("#right-header").empty();
   $("#game-control__display").show();
@@ -51,6 +89,11 @@ function renderNewGame(data) {
   $("#right-header").append(idSpan);
 }
 
+/**
+* getPhotos
+* queries database for photos of current game and round
+* @returns {undefined}
+*/
 function getPhotos() {
   gameState = updateGameState(gameState, {round: incrementRound(gameState.round)});
   $(".game-info").text("Game ID: " + gameState.id + " " + "Round: " + gameState.round)
@@ -59,6 +102,12 @@ function getPhotos() {
     .then(firebaseBot.startRound);
 }
 
+/**
+* calculateScores
+* tabulates the score based on votes
+* @param {array} data - the query results
+* @returns {object}
+*/
 function calculateScores(data) {
   let scores = gameState.scores || {};
   data.forEach(function(element) {
@@ -68,6 +117,13 @@ function calculateScores(data) {
   return {scores: scores};
 }
 
+/**
+* calculatePicScore
+* logic for totaling score for picture takers
+* @param {object} photoObj - the photo to be scored
+* @param {object} scoreObj - the scores object to update
+* @returns {undefined}
+*/
 function calculatePicScore(photoObj, scoreObj) {
   if (!photoObj.votes) return;
   if (scoreObj[photoObj.PlayerId]) {
@@ -77,6 +133,13 @@ function calculatePicScore(photoObj, scoreObj) {
   }
 }
 
+/**
+* calculateCaptionScore
+* logic for totaling score for captioners
+* @param {object} photoObj - the photo to be scored
+* @param {object} scoreObj - the scores object to update
+* @returns {undefined}
+*/
 function calculateCaptionScore(photoObj, scoreObj) {
   if (!photoObj.votes) return;
   if (scoreObj[photoObj.captionerId]) {

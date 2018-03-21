@@ -14,8 +14,8 @@ let data = {
 };
 
 describe("setGameState", function() {
-  it("returns an object with two properties", function() {
-    chai.expect(setGameState(data)).to.deep.equal({id: 4, round: 6, players: []});
+  it("returns the default gameState object", function() {
+    chai.expect(setGameState(data)).to.deep.equal({id: 4, round: 0, players: []});
   });
 });
 
@@ -31,6 +31,29 @@ let photosData = [{
   caption: "faux panda",
   id: 182,
   captionerId: 195,
+  location: "photos/we-rate-dogs.jpg",
+  votes: 0
+}];
+
+let photosData2 = [{
+  id: 200, 
+  PlayerId: 100, 
+  location: "photos/biddy.png", 
+  captionerId: 101,
+  caption: "rolly polly?", 
+  votes: 3
+}, {
+  PlayerId: 101,
+  caption: "faux panda",
+  id: 201,
+  captionerId: 102,
+  location: "photos/we-rate-dogs.jpg",
+  votes: 0
+}, {
+  PlayerId: 102,
+  caption: "faux panda",
+  id: 202,
+  captionerId: 100,
   location: "photos/we-rate-dogs.jpg",
   votes: 0
 }];
@@ -56,5 +79,9 @@ describe("resetGameState", function() {
 describe("calculateScores", function() {
   it("creates an object of scores", function() {
     chai.expect(calculateScores(photosData)).to.deep.equal({scores: {195: 200, 194: 300}});
+  });
+
+  it("tabulates scores, leaving out ones with 0", function() {
+    chai.expect(calculateScores(photosData2)).to.deep.equal({scores: {100: 300, 101: 450}});
   });
 });
