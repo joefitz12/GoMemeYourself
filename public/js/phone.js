@@ -164,19 +164,6 @@ $("#caption-submit").on("click", function (event) {
   }
 });
 
-// $(document).on("click", ".meme-submission", function () {
-//   if (!$(".selected")) {
-//     $(this).addClass("selected");
-//   }
-//   else if ($(this).hasClass("selected")) {
-//     $(".selected").removeClass("selected");
-//   }
-//   else {
-//     $(".selected").removeClass("selected");
-//     $(this).addClass("selected");
-//   }
-// });
-
 $("#vote-submit").on("click", function () {
   let photoID = parseInt($(".selected").attr("data-photoID"));
   if (photoID) {
