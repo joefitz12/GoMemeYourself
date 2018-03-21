@@ -12,10 +12,14 @@ const firebaseBot = (function () {
 
   var database = firebase.database();
 
+  /**
+   * assignPhotos
+   * creates an object with each playerID being assigned a different player's photo
+   * @param {array} data - the array of query results from the database
+   * @returns {object}
+   */
   function assignPhotos(data) {
-    console.log(data);
     gameState = updateGameState(gameState, createPlayersArray(data));
-    console.log(gameState);
     let roundObj = {};
     for (let i = 0; i < gameState.players.length; i++) {
       let j = 0;
@@ -27,13 +31,23 @@ const firebaseBot = (function () {
     return roundObj;
   }
 
-  // function to set start round to false on fb
+  /**
+   * resetStartRound
+   * resets startRound property in Firebase to false
+   * @returns {undefined}
+   */  
   function resetStartRound() {
     database.ref('games/' + gameState.id).update({
       startRound: false
     });
   }
 
+  /**
+   * createNewGame
+   * creates a new game in the database at the gameID provided
+   * @param {array} response - the response from the query
+   * @returns {undefined}
+   */
   function renderPhotoCaptions(response) {
     $("#photo-display").empty();
     response.forEach(function (element) {
@@ -46,7 +60,6 @@ const firebaseBot = (function () {
         url: '/angle/get/' + element.id,
         type: 'GET',
         success: function (data) {
-          console.log('rotation data!\n' + data.rotationAngle);
           photoDiv.css("transform", "rotate(" + parseInt(data.rotationAngle) + "deg)");
         }
       });
@@ -59,11 +72,13 @@ const firebaseBot = (function () {
     });
   }
 
-  // function to add listener on caption count
+  /**
+   * addCaptionListener
+   * add listener on captionCount in Firebase to render memes on change
+   * @returns {undefined}
+   */
   function addCaptionListener() {
     database.ref("games/" + gameState.id + "/captionCount").on("value", function (snap) {
-      console.log("captions: ", snap.val());
-      console.log("players: ", gameState.players.length);
       if (snap.val() !== 0 && snap.val() === gameState.players.length) {
         $.get("/photos/" + gameState.id + "/" + gameState.round)
           .then(renderPhotoCaptions)
@@ -72,9 +87,13 @@ const firebaseBot = (function () {
     });
   }
 
-  // function displays memes on phones
+  /**
+   * renderPhonePhotoCaptions
+   * iterates through the response and renders each meme on the phone
+   * @param {array} response - the result of the query
+   * @returns {undefined}
+   */
   function renderPhonePhotoCaptions(response) {
-    console.log(response);
     response.forEach(function (element) {
       let memeDiv = $("<div>");
       let rotateDiv = $("<div>")
@@ -105,22 +124,23 @@ const firebaseBot = (function () {
     });
   }
 
-  // function add listener on caption count for phones
+  /**
+   * phoneAddCaptionListener
+   * adds listener for captionCount change on phone
+   * @returns {undefined}
+   */
   function phoneAddCaptionListener() {
     $(".add-vote").hide();
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let roundNumber = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("roundNumber=") + "roundNumber=".length)))));
-    console.log("roundNumber", roundNumber);
     database.ref("games/" + gameID + "/captionCount").on("value", function (snap) {
       let captionCount = snap.val();
-      console.log("captions: ", snap.val());
       playerCount = 0;
       database.ref("games/" + gameID).once("value", function (snap2) {
         let photos = snap2.val().photos;
         for (key in photos) {
           playerCount++;
         }
-        console.log("playerCount", playerCount);
         if (captionCount !== 0 && captionCount === playerCount) {
           $(".add-vote").show();
           $(".modal-row").hide();
@@ -131,7 +151,11 @@ const firebaseBot = (function () {
     });
   }
 
-  // function to create new game
+  /**
+   * createNewGame
+   * creates a new game in the Firebase
+   * @returns {undefined}
+   */
   function createNewGame() {
     database.ref('games/' + gameState.id).set({
       photos: [],
@@ -145,6 +169,12 @@ const firebaseBot = (function () {
       });
   }
 
+  /**
+   * startRound
+   * click callback to update Firebase with round information
+   * @param {array} data - the ID of the new game being created
+   * @returns {undefined}
+   */
   function startRound(data) {
     let firebaseData = assignPhotos(data);
     database.ref('games/' + gameState.id).update({
@@ -155,6 +185,11 @@ const firebaseBot = (function () {
     });
   }
 
+  /**
+   * phoneCaptionPageRender
+   * get photo assignment information from Firebase and renders one photo for player to caption
+   * @returns {undefined}
+   */
   function phoneCaptionPageRender() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
@@ -174,14 +209,16 @@ const firebaseBot = (function () {
         $.ajax({
           url: '/voted/update',
           type: 'PUT',
-          data: playerData,
-          success: function (data) {
-            console.log('updated voted field!\n' + data);
-          }
+          data: playerData
         });
       });
   }
 
+  /**
+   * addStartRoundListener
+   * adds listener on phones for startRound value change in Firebase
+   * @returns {undefined}
+   */
   function addStartRoundListener() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let playerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
@@ -193,13 +230,17 @@ const firebaseBot = (function () {
     });
   }
 
+  /**
+   * addVotesListener
+   * adds listener for change on the value of votes in Firebase
+   * @returns {undefined}
+   */
   function addVotesListener() {
     database.ref("games/" + gameState.id + "/votes").on("value", function (snap) {
       if (snap.val() !== 0 && snap.val() === gameState.players.length) {
         $.get("/photos/" + gameState.id + "/" + gameState.round)
           .then(function (data) {
             gameState = updateGameState(gameState, calculateScores(data));
-            //update db
             $.ajax({
               url: "/players/scores",
               type: "PUT",
@@ -211,6 +252,11 @@ const firebaseBot = (function () {
     });
   }
 
+  /**
+   * renderScores
+   * renders calculated scores to the scoreboard
+   * @returns {undefined}
+   */
   function renderScores() {
     $("#score-display").empty();
     let button = $("<button>").text("Next Round");
@@ -229,12 +275,16 @@ const firebaseBot = (function () {
           } else {
             scoreDiv = $("<div>").text(data.nickname + ": " + gameState.scores[elem]);
           }
-
           $("#score-display").append(scoreDiv);
         });
     });
   };
 
+  /**
+   * incrementCaptionCount
+   * updates captionCount property in Firebase
+   * @returns {undefined}
+   */
   function incrementCaptionCount() {
     let gameID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("gameID=") + "gameID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("gameID=") + "gameID=".length)))));
     let captionerID = parseInt(window.location.pathname.substring((window.location.pathname.indexOf("playerID=") + "playerID=".length), (window.location.pathname.indexOf("/", (window.location.pathname.indexOf("playerID=") + "playerID=".length)))));
@@ -248,6 +298,11 @@ const firebaseBot = (function () {
     });
   }
 
+  /**
+   * incrementVoteCount
+   * updates votes property in Firebase
+   * @returns {undefined}
+   */
   function incrementVoteCount(gameID, playerID, roundNumber) {
     database.ref('games/' + gameID + '/votes').once("value").then(function (snapshot) {
       let newVoteCount = snapshot.val() + 1;
