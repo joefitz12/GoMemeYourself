@@ -2,79 +2,37 @@
 
 One Paragraph of project description goes here
 
-## Getting Started
+## Preview
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+### TV/Computer
 
-### Prerequisites
+![screen1](images/starter_tv.png) 
 
-What things you need to install the software and how to install them
+![scored](images/score_tv.png)
 
-```
-Give examples
-```
+### Mobile
 
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+![photo submit screen](images/submit_phone.jpg)
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+open `public/test-runner.html` in browser to see result of unit tests
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Game running live via Heroku [here](https://go-meme-yourself.herokuapp.com).
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+* [Bootstrap](https://getbootstrap.com/docs/3.3/) - CSS library
+* [Firebase](firebase.google.com) - Provides realtime communication for game data
+* [JawsDB MySQL](https://elements.heroku.com/addons/jawsdb) - Heroku add-on that provides MySQL database server
+* [jQuery](https://jquery.com) - Dom manipulation library
 
 ## Authors
 
 * **Joe Fitzpatrick** - [GitHub](https://github.com/joefitz12)
 * **Mina Slater** - [GitHub](https://github.com/minaslater)
-
 
 ## License
 
