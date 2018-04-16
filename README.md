@@ -1,6 +1,6 @@
 # GoMemeYourself
 
-One Paragraph of project description goes here
+This project was created by two people that love playing games with their friends. What we've found to be the two biggest obstacles to game nights are: heavy technical requirements (consoles, controllers, etc.) and time. GoMemeYourself gets around both of those by using what you already have: a simple web browser on a TV or computer and you and your friends' mobile devices. Players join the game on their phones (or tablets) and snap a selfie. Once all the players have submitted their selfie, they're assigned a random selfie from one of their friends. They add a caption to that selfie and hit submit. After everyone's submitted a caption, all the newly-created memes are displayed on the screen and players get to vote on their favorite one. Players get points for votes on their captions *or* their photos.
 
 ## Preview
 
